@@ -8,6 +8,6 @@ public class KickOffCommunityApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(KickOffCommunityApplication.class, args);
+		System.out.println("asdfsa");
 	}
-
 }
