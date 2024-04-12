@@ -16,4 +16,19 @@ public class ViewLayoutController {
 
         return "fragments/header";
     }
+    @GetMapping("/basketball")
+    public String basketballLayout(Model model) {
+
+        return "/basketball";
+    }
+    @GetMapping("/tennis")
+    public String tennisLayout(Model model) {
+
+        return "/tennis";
+    }
+    @GetMapping("/futsal")
+    public String futsalLayout(Model model) {
+
+        return "/futsal";
+    }
 }
