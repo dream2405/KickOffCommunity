@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="tennis">
+    <span th:if="${menu} == 'team'" th:replace="~{fragments/contentFrag/tabFrag/team :: team}"></span>
+    <span th:if="${menu} == 'history'" th:replace="~{fragments/contentFrag/tabFrag/history :: history}"></span>
+    <span th:if="${menu} == 'publish'" th:replace="~{fragments/contentFrag/tabFrag/publish :: publish}"></span>
+    <span th:if="${menu} == 'calender'" th:replace="~{fragments/contentFrag/tabFrag/calender :: calender}"></span>
+    <span th:if="${menu} == 'ranking'" th:replace="~{fragments/contentFrag/tabFrag/ranking :: ranking}"></span>
+</div>
+</body>
+</html>

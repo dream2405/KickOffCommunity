@@ -1,55 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<body>
-<div th:fragment="content">
-    <!-- Content area goes here -->
-    <!-- Add your dynamic content using Thymeleaf syntax -->
-    <div class="container">
-        <div class="btn-group" role="group" aria-label="Basic outlined example">
-            <button type="button" class="btn btn-primary btn-light">팀</button>
-            <button type="button" class="btn btn-primary btn-light">팀순위</button>
-            <button type="button" class="btn btn-primary btn-light">역대기록</button>
-            <button type="button" class="btn btn-primary btn-light">일정</button>
-            <button type="button" class="btn btn-primary btn-light">게시판</button>
-        </div>
-    </div>
-
-    <div class="container border">
-        <div class="row g-3"> <!-- gap 클래스 사용 -->
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card Title 1</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card Title 2</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card Title 3</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card">
-                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card Title 4</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<body th:fragment="content">
+<div th:if="${sportsType} == 'tennis'" th:replace="~{fragments/contentFrag/tennis :: tennis}"></div>
+<div th:if="${sportsType} == 'basketball'" th:replace="~{fragments/contentFrag/basketball :: basketball}"></div>
+<div th:if="${sportsType} == 'futsal'" th:replace="~{fragments/contentFrag/futsal :: futsal}"></div>
 </body>
 </html>
