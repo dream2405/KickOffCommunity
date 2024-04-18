@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ViewLayoutController {
     @GetMapping("/")
     public String mainLayout(Model model) {
-        // 기본값 - 테니스탭의 팀 탭을 보여줌
-        model.addAttribute("sportsType", "tennis");
-        model.addAttribute("menu", "team");
-
-        return "main";
+        // 기본탭은 테니스
+        return "redirect:/tennis";
     }
 }
