@@ -34,7 +34,12 @@ public class TennisLayoutController {
 
         return "main";
     }
-
+    @GetMapping("/history")
+    public String historyLayout(Model model) {
+        // matches 데이터를 모델에 추가하여 템플릿에서 사용할 수 있도록 합니다.
+        model.addAttribute("matches", datas);
+        return "history"; // history.html을 반환합니다.
+    }
     // ...
 
 

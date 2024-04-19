@@ -1,12 +1,101 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>역대 기록 테이블</title>
+
+<style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+</style>
 </head>
 <body>
 <span th:fragment="history">
+  <h2>전체 일정 테이블</h2>
 
+  <table th:fragment="historyTable">
+    <thead>
+      <tr>
+        <th>날짜</th>
+        <th>시간</th>
+        <th>팀 1</th>
+        <th>팀 2</th>
+        <th>스코어</th>
+        <th>장소</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Thymeleaf 반복문을 사용하여 matches 배열을 순회하며 테이블 행 생성 -->
+      <tr th:each="match : ${matches}">
+        <td th:text="${match.date}"></td>
+        <td th:text="${match.time}"></td>
+        <td th:text="${match.team1}"></td>
+        <td th:text="${match.team2}"></td>
+        <td th:text="${match.score}"></td>
+        <td th:text="${match.location}"></td>
+      </tr>
+    </tbody>
+  </table>
 </span>
+
+<!-- matches 배열 추가 -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var matches = [
+    {date: "2024년 4월 1일", time: "오후 2시", team1: "팀 1", team2: "팀 4", score: "3-2", location: "테니스장 A"},
+    {date: "2024년 4월 1일", time: "오후 4시", team1: "팀 3", team2: "팀 2", score: "3-1", location: "테니스장 B"},
+    {date: "2024년 4월 1일", time: "오후 6시", team1: "팀 5", team2: "팀 6", score: "3-2", location: "테니스장 C"},
+    {date: "2024년 4월 2일", time: "오후 2시", team1: "팀 7", team2: "팀 8", score: "3-1", location: "테니스장 A"},
+    {date: "2024년 4월 2일", time: "오후 4시", team1: "팀 9", team2: "팀 10", score: "3-0", location: "테니스장 B"},
+    {date: "2024년 4월 2일", time: "오후 6시", team1: "팀 1", team2: "팀 2", score: "3-1", location: "테니스장 A"},
+    {date: "2024년 4월 3일", time: "오후 2시", team1: "팀 3", team2: "팀 4", score: "3-0", location: "테니스장 B"},
+    {date: "2024년 4월 3일", time: "오후 4시", team1: "팀 5", team2: "팀 6", score: "3-2", location: "테니스장 C"},
+    {date: "2024년 4월 3일", time: "오후 6시", team1: "팀 7", team2: "팀 8", score: "3-1", location: "테니스장 A"},
+    {date: "2024년 4월 4일", time: "오후 2시", team1: "팀 9", team2: "팀 10", score: "3-2", location: "테니스장 B"},
+    {date: "2024년 4월 4일", time: "오후 4시", team1: "팀 1", team2: "팀 6", score: "3-1", location: "테니스장 C"},
+    {date: "2024년 4월 4일", time: "오후 6시", team1: "팀 3", team2: "팀 4", score: "3-0", location: "테니스장 A"},
+    {date: "2024년 4월 5일", time: "오후 2시", team1: "팀 5", team2: "팀 2", score: "3-2", location: "테니스장 B"},
+    {date: "2024년 4월 5일", time: "오후 4시", team1: "팀 7", team2: "팀 8", score: "3-1", location: "테니스장 C"},
+    {date: "2024년 4월 5일", time: "오후 6시", team1: "팀 9", team2: "팀 10", score: "3-0", location: "테니스장 A"},
+    {date: "2024년 4월 6일", time: "오후 2시", team1: "팀 1", team2: "팀 2", score: "3-2", location: "테니스장 B"},
+    {date: "2024년 4월 6일", time: "오후 4시", team1: "팀 3", team2: "팀 8", score: "3-1", location: "테니스장 C"},
+    {date: "2024년 4월 6일", time: "오후 6시", team1: "팀 5", team2: "팀 10", score: "3-0", location: "테니스장 A"},
+    {date: "2024년 4월 7일", time: "오후 2시", team1: "팀 7", team2: "팀 4", score: "3-2", location: "테니스장 B"},
+    {date: "2024년 4월 7일", time: "오후 4시", team1: "팀 9", team2: "팀 2", score: "3-1", location: "테니스장 C"},
+    {date: "2024년 4월 7일", time: "오후 6시", team1: "팀 1", team2: "팀 4", score: "3-0", location: "테니스장 B"},
+    {date: "2024년 4월 8일", time: "오후 2시", team1: "팀 3", team2: "팀 6", score: "3-2", location: "테니스장 C"},
+    {date: "2024년 4월 8일", time: "오후 4시", team1: "팀 5", team2: "팀 8", score: "3-1", location: "테니스장 A"},
+    {date: "2024년 4월 8일", time: "오후 6시", team1: "팀 7", team2: "팀 10", score: "3-2", location: "테니스장 B"},
+    {date: "2024년 4월 9일", time: "오후 2시", team1: "팀 9", team2: "팀 2", score: "3-1", location: "테니스장 C"},
+    {date: "2024년 4월 9일", time: "오후 4시", team1: "팀 1", team2: "팀 4", score: "3-0", location: "테니스장 A"},
+    {date: "2024년 4월 9일", time: "오후 6시", team1: "팀 3", team2: "팀 6", score: "3-2", location: "테니스장 B"},
+    {date: "2024년 4월 10일", time: "오후 2시", team1: "팀 5", team2: "팀 8", score: "3-1", location: "테니스장 C"},
+    {date: "2024년 4월 10일", time: "오후 4시", team1: "팀 7", team2: "팀 10", score: "3-0", location: "테니스장 A"},
+    {date: "2024년 4월 10일", time: "오후 6시", team1: "팀 9", team2: "팀 6", score: "3-2", location: "테니스장 B"},
+    {date: "2024년 4월 11일", time: "오후 2시", team1: "팀 1", team2: "팀 4", score: "3-1", location: "테니스장 C"},
+    {date: "2024년 4월 11일", time: "오후 4시", team1: "팀 3", team2: "팀 10", score: "3-0", location: "테니스장 A"},
+    {date: "2024년 4월 11일", time: "오후 6시", team1: "팀 7", team2: "팀 2", score: "3-2", location: "테니스장 B"},
+    {date: "2024년 4월 12일", time: "오후 2시", team1: "팀 5", team2: "팀 10", score: "3-1", location: "테니스장 C"}
+        
+    ];
+    /*]]>*/
+</script>
+
 </body>
 </html>
