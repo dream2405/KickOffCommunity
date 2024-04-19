@@ -13,11 +13,30 @@ public class TennisLayoutController {
     // 테스트용 목업 데이터 - 추후 DB로 교체 예정
     private List<MockUpTeamData> datas = new ArrayList<>();
 
+    // 테니스탭의 초기 페이지는 팀
     @GetMapping()
-    public String mainLayout(Model model) {
+    public String mainLayout() {
+        return "redirect:/tennis/team";
+    }
+
+    // 테니스 탭의 팀 버튼 클릭시 컨텐츠 model 제어
+    @GetMapping("/team")
+    public String teamLayout(Model model) {
         model.addAttribute("teamDatas", datas);
+        model.addAttribute("menu", "team");
+
         return "main";
     }
+
+    // 테니스 탭의 팀순위 버튼 클릭시 컨텐츠 model 제어
+    @GetMapping("/ranking")
+    public String rankingLayout(Model model) {
+
+        return "main";
+    }
+
+    // ...
+
 
     @RequestMapping("/team/{tab}/{idx}")
     public String tabLayout(@PathVariable String tab, @PathVariable int idx, Model model) {
@@ -42,7 +61,7 @@ public class TennisLayoutController {
         return "teamDesc";
     }
 
-    @GetMapping("/teamAdd")
+    @GetMapping("/team/teamAdd")
     public String teamAdd(Model model) {
         model.addAttribute("sportsType", "tennis");
         model.addAttribute("team", new MockUpTeamData("", "", null, ""));

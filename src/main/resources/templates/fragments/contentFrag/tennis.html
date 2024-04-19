@@ -6,11 +6,36 @@
 </head>
 <body>
 <div th:fragment="tennis">
-    <span th:if="${menu} == 'team'" th:replace="~{fragments/contentFrag/tabFrag/team :: team}"></span>
-    <span th:if="${menu} == 'history'" th:replace="~{fragments/contentFrag/tabFrag/history :: history}"></span>
-    <span th:if="${menu} == 'publish'" th:replace="~{fragments/contentFrag/tabFrag/publish :: publish}"></span>
-    <span th:if="${menu} == 'calender'" th:replace="~{fragments/contentFrag/tabFrag/calender :: calender}"></span>
-    <span th:if="${menu} == 'ranking'" th:replace="~{fragments/contentFrag/tabFrag/ranking :: ranking}"></span>
+    <div class="container">
+        <div class="btn-group" role="group" aria-label="Basic outlined example">
+            <a class="btn btn-primary btn-light"
+                    th:classappend="${menu=='team'} ? 'active' : ''" th:href="@{/tennis/team}">팀</a>
+            <a class="btn btn-primary btn-light"
+                    th:classappend="${menu=='ranking'} ? 'active' : ''" th:href="@{/tennis/ranking}">팀순위</a>
+            <a class="btn btn-primary btn-light"
+                    th:classappend="${menu=='ranking'} ? 'history' : ''" th:href="@{/tennis/history}">역대기록</a>
+            <a class="btn btn-primary btn-light"
+                    th:classappend="${menu=='ranking'} ? 'calender' : ''" th:href="@{/tennis/calender}">일정</a>
+            <a class="btn btn-primary btn-light"
+                    th:classappend="${menu=='ranking'} ? 'publish' : ''" th:href="@{/tennis/publish}">게시판</a>
+        </div>
+    </div>
+
+    <th:block th:if="${menu} == 'team'">
+        <span th:replace="~{fragments/contentFrag/tabFrag/team :: team}"></span>
+    </th:block>
+    <th:block th:if="${menu} == 'history'">
+        <span th:replace="~{fragments/contentFrag/tabFrag/history :: history}"></span>
+    </th:block>
+    <th:block th:if="${menu} == 'publish'">
+        <span th:replace="~{fragments/contentFrag/tabFrag/publish :: publish}"></span>
+    </th:block>
+    <th:block th:if="${menu} == 'calender'">
+        <span th:replace="~{fragments/contentFrag/tabFrag/calender :: calender}"></span>
+    </th:block>
+    <th:block th:if="${menu} == 'ranking'">
+        <span th:replace="~{fragments/contentFrag/tabFrag/ranking :: ranking}"></span>
+    </th:block>
 </div>
 </body>
 </html>

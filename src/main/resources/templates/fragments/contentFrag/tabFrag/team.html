@@ -6,16 +6,6 @@
 </head>
 <body>
 <span th:fragment="team">
-    <div class="container">
-        <div class="btn-group" role="group" aria-label="Basic outlined example">
-            <button type="button" class="btn btn-primary btn-light">팀</button>
-            <button type="button" class="btn btn-primary btn-light">팀순위</button>
-            <button type="button" class="btn btn-primary btn-light">역대기록</button>
-            <button type="button" class="btn btn-primary btn-light">일정</button>
-            <button type="button" class="btn btn-primary btn-light">게시판</button>
-        </div>
-    </div>
-
     <div class="container border">
         <div class="row row-cols-4 row-cols-md-5 mb-3 text-center"> <!-- gap 클래스 사용 -->
             <div class="col" th:each="teamData, iterStat: ${teamDatas}">
@@ -30,8 +20,8 @@
             </div>
             <div class="col">
                 <div class="card mb-4 rounded-3 shadow-sm">
-                    <a th:href="@{/tennis/teamAdd}">
-                        <img src="img/plus.png" class="card-img-top" alt="...">
+                    <a th:href="@{/tennis/team/teamAdd}">
+                        <img src="/img/plus.png" class="card-img-top" alt="...">
                     </a>
                     <div class="card-body">
                         <h5 class="card-title">팀 추가</h5>
