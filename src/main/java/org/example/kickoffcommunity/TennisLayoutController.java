@@ -27,12 +27,24 @@ public class TennisLayoutController {
 
         return "main";
     }
+    @GetMapping("/calender")
+    public String calenderLayout(Model model) {
+        model.addAttribute("menu", "calender");
+        
+        model.addAttribute("calender", datas);
+        return "main";
+        
+    }
 
     // 테니스 탭의 팀순위 버튼 클릭시 컨텐츠 model 제어
     @GetMapping("/ranking")
     public String rankingLayout(Model model) {
-
+        model.addAttribute("menu", "ranking");
+        model.addAttribute("ranking", datas);
         return "main";
+        
+
+        
     }
     @GetMapping("/history")
     public String historyLayout(Model model) {

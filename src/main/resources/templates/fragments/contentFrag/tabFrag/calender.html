@@ -5,6 +5,89 @@
     <title>Title</title>
 </head>
 <body>
-<span th:fragment="calender"></span>
+<span th:fragment="calender">
+    <style>
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+      
+        table, th, td {
+          border: 1px solid black;
+        }
+      
+        th, td {
+          padding: 10px;
+          text-align: center;
+        }
+      
+        th {
+          background-color: #f2f2f2;
+        }
+      </style>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>날짜</th>
+                <th>시간</th>
+                <th>팀 1</th>
+                <th>팀 2</th>
+                <th>장소</th>
+                <th>매치 상태</th>
+            </tr>
+        </thead>
+        <tbody>
+            <script>
+                var matches = [
+    {date: "2024년 5월 1일", time: "오후 2시", team1: "팀 1", team2: "팀 4", location: "테니스장 A", match: "진행 확정"},
+    {date: "2024년 5월 1일", time: "오후 4시", team1: "팀 3", team2: "팀 2", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 1일", time: "오후 6시", team1: "팀 5", team2: "팀 6", location: "테니스장 C", match: "진행 확정"},
+    {date: "2024년 5월 2일", time: "오후 2시", team1: "팀 7", team2: "팀 8", location: "테니스장 A", match: "진행 확정"},
+    {date: "2024년 5월 2일", time: "오후 4시", team1: "팀 9", team2: null, location: "테니스장 B", match: "팀 구하는 중"},
+    {date: "2024년 5월 2일", time: "오후 6시", team1: "팀 1", team2: "팀 2", location: "테니스장 A", match: "진행 확정"},
+    {date: "2024년 5월 3일", time: "오후 2시", team1: "팀 3", team2: "팀 4", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 3일", time: "오후 4시", team1: "팀 5", team2: null, location: "테니스장 C", match: "팀 구하는 중"},
+    {date: "2024년 5월 3일", time: "오후 6시", team1: "팀 7", team2: "팀 8", location: "테니스장 A", match: "진행 확정"},
+    {date: "2024년 5월 4일", time: "오후 2시", team1: "팀 9", team2: "팀 10", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 4일", time: "오후 4시", team1: "팀 1", team2: "팀 6", location: "테니스장 C", match: "진행 확정"},
+    {date: "2024년 5월 4일", time: "오후 6시", team1: "팀 3", team2: null, location: "테니스장 A", match: "팀 구하는 중"},
+    {date: "2024년 5월 5일", time: "오후 2시", team1: "팀 5", team2: "팀 2", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 5일", time: "오후 4시", team1: "팀 7", team2: "팀 8", location: "테니스장 C", match: "진행 확정"},
+    {date: "2024년 5월 5일", time: "오후 6시", team1: "팀 9", team2: "팀 10", location: "테니스장 A", match: "진행 확정"},
+    {date: "2024년 5월 6일", time: "오후 2시", team1: "팀 1", team2: "팀 2", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 6일", time: "오후 4시", team1: "팀 3", team2: null, location: "테니스장 C", match: "팀 구하는 중"},
+    {date: "2024년 5월 6일", time: "오후 6시", team1: "팀 5", team2: null, location: "테니스장 A", match: "팀 구하는 중"},
+    {date: "2024년 5월 7일", time: "오후 2시", team1: "팀 7", team2: "팀 4", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 7일", time: "오후 4시", team1: "팀 9", team2: "팀 2", location: "테니스장 C", match: "진행 확정"},
+    {date: "2024년 5월 7일", time: "오후 6시", team1: "팀 1", team2: "팀 4", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 8일", time: "오후 2시", team1: "팀 3", team2: null, location: "테니스장 C", match: "팀 구하는 중"},
+    {date: "2024년 5월 8일", time: "오후 4시", team1: "팀 5", team2: "팀 8", location: "테니스장 A", match: "진행 확정"},
+    {date: "2024년 5월 8일", time: "오후 6시", team1: "팀 7", team2: "팀 10", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 9일", time: "오후 2시", team1: "팀 9", team2: "팀 2", location: "테니스장 C", match: "진행 확정"},
+    {date: "2024년 5월 9일", time: "오후 4시", team1: "팀 1", team2: null, location: "테니스장 A", match: "팀 구하는 중"},
+    {date: "2024년 5월 9일", time: "오후 6시", team1: "팀 3", team2: "팀 6", location: "테니스장 B", match: "진행 확정"},
+    {date: "2024년 5월 10일", time: "오후 2시", team1: "팀 5", team2: "팀 8", location: "테니스장 C", match: "진행 확정"},
+    {date: "2024년 5월 10일", time: "오후 4시", team1: "팀 7", team2: "팀 10", location: "테니스장 A", match: "진행 확정"},
+    {date: "2024년 5월 10일", time: "오후 6시", team1: "팀 9", team2: null, location: "테니스장 B", match: "팀 구하는 중"},
+    {date: "2024년 5월 11일", time: "오후 2시", team1: "팀 1", team2: "팀 4", location: "테니스장 C", match: "진행 확정"},
+    {date: "2024년 5월 11일", time: "오후 4시", team1: "팀 3", team2: "팀 10", location: "테니스장 A", match: "진행 확정"},
+    {date: "2024년 5월 11일", time: "오후 6시", team1: "팀 7", team2: null, location: "테니스장 B", match: "팀 구하는 중"},
+    {date: "2024년 5월 12일", time: "오후 2시", team1: "팀 5", team2: null, location: "테니스장 C", match: "팀 구하는 중"}
+];
+                // matches 배열을 순회하며 각 요소를 테이블에 추가
+                matches.forEach(function(match) {
+                    document.write("<tr>");
+                    document.write("<td>" + match.date + "</td>");
+                    document.write("<td>" + match.time + "</td>");
+                    document.write("<td>" + match.team1 + "</td>");
+                    document.write("<td>" + (match.team2 ? match.team2 : "팀 구하는 중") + "</td>");
+                    document.write("<td>" + match.location + "</td>");
+                    document.write("<td>" + match.match + "</td>");
+                    document.write("</tr>");
+                });
+            </script>
+        </tbody>
+    </table>
+</span>
 </body>
 </html>
