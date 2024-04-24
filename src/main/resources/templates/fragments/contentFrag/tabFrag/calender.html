@@ -25,14 +25,23 @@
         th {
           background-color: #f2f2f2;
         }
-      </style>
+
+        /* 추가된 CSS 규칙 */
+        .confirm {
+          color: orange;
+        }
+
+        .pending {
+          color: green;
+        }
+    </style>
     <table border="1">
         <thead>
             <tr>
                 <th>날짜</th>
                 <th>시간</th>
-                <th>팀 1</th>
-                <th>팀 2</th>
+                <th>팀 A</th>
+                <th>팀 B</th>
                 <th>장소</th>
                 <th>매치 상태</th>
             </tr>
@@ -81,9 +90,9 @@
                     document.write("<td>" + match.date + "</td>");
                     document.write("<td>" + match.time + "</td>");
                     document.write("<td>" + match.team1 + "</td>");
-                    document.write("<td>" + (match.team2 ? match.team2 : "팀 구하는 중") + "</td>");
+                    document.write("<td>" + (match.team2 ? match.team2 : "<span class='pending'>팀 구하는 중</span>") + "</td>");
                     document.write("<td>" + match.location + "</td>");
-                    document.write("<td>" + match.match + "</td>");
+                    document.write("<td>" + (match.match === "진행 확정" ? "<span class='confirm'>진행 확정</span>" : match.match) + "</td>");
                     document.write("</tr>");
                 });
             </script>
