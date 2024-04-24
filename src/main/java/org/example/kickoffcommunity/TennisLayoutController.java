@@ -33,7 +33,6 @@ public class TennisLayoutController {
         
         model.addAttribute("calender", datas);
         return "main";
-        
     }
 
     // 테니스 탭의 팀순위 버튼 클릭시 컨텐츠 model 제어
@@ -67,7 +66,6 @@ public class TennisLayoutController {
         model.addAttribute("teamName", datas.get(idx).teamName());
         model.addAttribute("sportsType", "tennis");
 
-        System.out.println(tab);
         switch (tab) {
             case "desc" -> {
                 model.addAttribute("tab", "desc");
@@ -75,11 +73,11 @@ public class TennisLayoutController {
             }
             case "member" -> {
                 model.addAttribute("tab", "member");
-                model.addAttribute("test2", "test");
+                model.addAttribute("test2", "member test");
             }
             default -> {
                 model.addAttribute("tab", "picture");
-                model.addAttribute("test3", "test");
+                model.addAttribute("test3", "picture test");
             }
         }
         return "teamDesc";
