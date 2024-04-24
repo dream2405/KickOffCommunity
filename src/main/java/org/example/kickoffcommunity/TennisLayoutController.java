@@ -53,7 +53,13 @@ public class TennisLayoutController {
         model.addAttribute("matches", datas);
         return "main";
     }
-    // ...
+    
+    @GetMapping("/publish")
+    public String publishLayout(Model model) {
+        model.addAttribute("menu", "publish");
+        model.addAttribute("pubExample", datas);
+        return "main";
+    }
 
 
     @RequestMapping("/team/{tab}/{idx}")
