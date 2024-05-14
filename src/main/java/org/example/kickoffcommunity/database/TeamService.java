@@ -42,4 +42,19 @@ public class TeamService {
         }
         return false;
     }
+
+    public void deleteTeamById(Integer id) {
+        teamRepository.deleteById(id);
+    }
+
+    public Team updateTeamImgPath(Integer id, String imgPath) {
+        var optionalTeam = teamRepository.findById(id);
+        if (optionalTeam.isPresent()) {
+            var team = optionalTeam.get();
+            team.setImgPath(imgPath);
+            return teamRepository.save(team);
+        } else {
+            return null;
+        }
+    }
 }

@@ -75,23 +75,8 @@ public class TennisLayoutController {
 
     @RequestMapping("/team/{tab}/{id}")
     public String tabLayout(@PathVariable String tab, @PathVariable Integer id, Model model) {
-        model.addAttribute("teamName", teamService.findTeam(id).get().getName());
-        model.addAttribute("sportsType", "tennis");
+        model.addAttribute("team", teamService.findTeam(id).get());
 
-        switch (tab) {
-            case "desc" -> {
-                model.addAttribute("tab", "desc");
-                model.addAttribute("test1", teamService.findTeam(id).get().getName());
-            }
-            case "member" -> {
-                model.addAttribute("tab", "member");
-                model.addAttribute("test2", "member test");
-            }
-            default -> {
-                model.addAttribute("tab", "picture");
-                model.addAttribute("test3", "picture test");
-            }
-        }
         return "teamDesc";
     }
 
@@ -113,10 +98,26 @@ public class TennisLayoutController {
 
             team.setType("tennis");
             team.setImgPath("/img/tennis/" + name);
+
             teamService.insertTeam(team);
 
             return "redirect:/tennis/team";
         }
         return "redirect:/tennis/team/teamAdd";
+    }
+
+    @PostMapping("/{id}")
+    public String updateTeam(@PathVariable Integer id, @RequestParam("file") MultipartFile file) {
+        Team team = teamService.findTeam(id).get();
+        String fileName = team.getImgPath().substring(file.getOriginalFilename().lastIndexOf("/") + 1);
+        fileUploadService.deleteFile(fileName);
+
+        String newFileName = file.getOriginalFilename();
+        String fileFormat = newFileName.substring(newFileName.lastIndexOf("."));
+        String name = UUID.randomUUID() + fileFormat;
+        fileUploadService.uploadFile(file, name);
+        teamService.updateTeamImgPath(id, "/img/tennis/" + name);
+
+        return "redirect:/tennis/team/desc/" + id;
     }
 }

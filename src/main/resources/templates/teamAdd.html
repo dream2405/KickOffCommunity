@@ -7,29 +7,39 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container">
+    <br>
+
+    <div class="container border rounded bg-body-secondary" style="padding: 1rem; width: 60rem">
         <!-- todo: 추후 종목 별 3개의 팀 추가 페이지 필요? -->
         <form th:action="@{/{type}/submit(type=${sportsType})}" th:object="${team}" method="post" enctype="multipart/form-data">
-            <div class="form-row">
-                <div class="form-group col-sm">
+            <div class="row g-2 align-items-center">
+                <div class="col-1 text-center">
                     <label for="teamNameInput">팀 이름</label>
+                </div>
+                <div class="col-5">
                     <input type="text" class="form-control" id="teamNameInput" placeholder="다른 팀 이름과 겹치면 안됩니다" th:field="*{name}">
                 </div>
-                <div class="form-group col-sm">
+                <div class="col-1 text-center">
                     <label for="leaderNameInput">팀장 이름</label>
+                </div>
+                <div class="col-5">
                     <input type="text" class="form-control" id="leaderNameInput" th:field="*{leaderName}">
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="teamDescInput">팀 소개</label>
-                <textarea class="form-control" id="teamDescInput" placeholder="팀을 소개하는 문구를 적어주세요" rows="3" th:field="*{desc}"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="formFile" class="form-label">Default file input example</label>
-                <input class="form-control" type="file" id="formFile" accept="image/*" name="file" />
-            </div>
-            <div class="container">
-                <button type="submit" class="btn btn-info">Submit</button>
+                <div class="col-1 text-center">
+                    <label for="teamDescInput">팀 소개</label>
+                </div>
+                <div class="col-11">
+                    <textarea class="form-control" id="teamDescInput" placeholder="팀을 소개하는 문구를 적어주세요" rows="3" th:field="*{desc}"></textarea>
+                </div>
+                <div class="col-1 text-center">
+                    <label for="formFile" class="form-label">팀 이미지</label>
+                </div>
+                <div class="col-11">
+                    <input class="form-control" type="file" id="formFile" accept="image/*" name="file" />
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-info">추가</button>
+                </div>
             </div>
         </form>
     </div>

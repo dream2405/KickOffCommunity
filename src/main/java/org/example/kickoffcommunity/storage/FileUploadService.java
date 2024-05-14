@@ -39,4 +39,23 @@ public class FileUploadService {
             return "Failed to upload " + file.getOriginalFilename() + " due to IO error";
         }
     }
+
+    public void deleteFile(String fileName) {
+        Path path = Paths.get(uploadDir + fileName);
+
+        try {
+            // 파일이 존재하는 경우 삭제합니다.
+            boolean deleted = Files.deleteIfExists(path);
+
+            // 삭제 성공 여부를 확인합니다.
+            if (deleted) {
+                System.out.println("File deleted successfully.");
+            } else {
+                System.out.println("File not found.");
+            }
+        } catch (IOException e) {
+            // 파일 삭제 중 발생한 예외를 처리
+            System.err.println("Failed to delete the file: " + e.getMessage());
+        }
+    }
 }
