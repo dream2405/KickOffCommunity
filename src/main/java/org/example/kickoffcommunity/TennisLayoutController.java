@@ -1,17 +1,31 @@
 package org.example.kickoffcommunity;
 
+import org.example.kickoffcommunity.database.Team;
+import org.example.kickoffcommunity.database.TeamService;
+import org.example.kickoffcommunity.storage.FileUploadService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/tennis")
 public class TennisLayoutController {
     // 테스트용 목업 데이터 - 추후 DB로 교체 예정
     private List<MockUpTeamData> datas = new ArrayList<>();
+    private final TeamService teamService;
+    private final FileUploadService fileUploadService;
+
+    @Autowired
+    public TennisLayoutController(TeamService teamService, FileUploadService fileUploadService) {
+        this.teamService = teamService;
+        this.fileUploadService = fileUploadService;
+    }
 
     // 테니스탭의 초기 페이지는 팀
     @GetMapping()
@@ -22,11 +36,12 @@ public class TennisLayoutController {
     // 테니스 탭의 팀 버튼 클릭시 컨텐츠 model 제어
     @GetMapping("/team")
     public String teamLayout(Model model) {
-        model.addAttribute("teamDatas", datas);
+        model.addAttribute("teamDatas", teamService.findAllTeams());
         model.addAttribute("menu", "team");
 
         return "main";
     }
+
     @GetMapping("/calender")
     public String calenderLayout(Model model) {
         model.addAttribute("menu", "calender");
@@ -41,9 +56,6 @@ public class TennisLayoutController {
         model.addAttribute("menu", "ranking");
         model.addAttribute("ranking", datas);
         return "main";
-        
-
-        
     }
     @GetMapping("/history")
     public String historyLayout(Model model) {
@@ -61,15 +73,15 @@ public class TennisLayoutController {
     }
 
 
-    @RequestMapping("/team/{tab}/{idx}")
-    public String tabLayout(@PathVariable String tab, @PathVariable int idx, Model model) {
-        model.addAttribute("teamName", datas.get(idx).teamName());
+    @RequestMapping("/team/{tab}/{id}")
+    public String tabLayout(@PathVariable String tab, @PathVariable Integer id, Model model) {
+        model.addAttribute("teamName", teamService.findTeam(id).get().getName());
         model.addAttribute("sportsType", "tennis");
 
         switch (tab) {
             case "desc" -> {
                 model.addAttribute("tab", "desc");
-                model.addAttribute("test1", datas.get(idx).desc());
+                model.addAttribute("test1", teamService.findTeam(id).get().getName());
             }
             case "member" -> {
                 model.addAttribute("tab", "member");
@@ -86,17 +98,25 @@ public class TennisLayoutController {
     @GetMapping("/team/teamAdd")
     public String teamAdd(Model model) {
         model.addAttribute("sportsType", "tennis");
-        model.addAttribute("team", new MockUpTeamData("", "", null, ""));
+        model.addAttribute("team", new Team());
         return "teamAdd";
     }
 
     @PostMapping("/submit")
-    public String submitUser(@ModelAttribute MockUpTeamData team) {
-        if (datas.stream().anyMatch(data -> data.teamName().equals(team.teamName()))) {
-            return "redirect:/tennis?error=true";
-        }
-        datas.add(team);
+    public String submitUser(@ModelAttribute Team team, @RequestParam("file") MultipartFile file) {
+        if (!teamService.findByName(team.getName()) && !file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            String fileFormat = fileName.substring(fileName.lastIndexOf("."));
+            String name = UUID.randomUUID() + fileFormat;
 
-        return "redirect:/tennis?error=false";
+            fileUploadService.uploadFile(file, name);
+
+            team.setType("tennis");
+            team.setImgPath("/img/tennis/" + name);
+            teamService.insertTeam(team);
+
+            return "redirect:/tennis/team";
+        }
+        return "redirect:/tennis/team/teamAdd";
     }
 }
