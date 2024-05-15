@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 상세 페이지</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+        .match-info {
+            margin-bottom: 30px;
+        }
+        .apply-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="/tennis/publish/list" class="btn btn-secondary">뒤로가기</a>
+    </div>
+    <div class="container">
+        
+        <div class="row match-info">
+            <div class="col-md-6">
+                <h1>라인업 및 매치 방식</h1>
+                <p>경기일자: <span th:text="${tennisarticle.date}"></span></p>
+            </div>
+            <div class="col-md-6">
+                <img src="https://www.plabfootball.com/img/logo.0b9054f3.png" alt="플랩 풋볼 로고" width="200">
+            </div>
+        </div>
+        <button class="btn btn-primary apply-btn" onclick="apply()">신청하기</button>
+    </div>
+    
+    <script>
+        function apply() {
+            // 여기에 신청하기 버튼을 눌렀을 때의 동작을 추가하세요
+            console.log("신청하기 버튼이 클릭되었습니다.");
+        }
+    </script>
+</body>
+</html>

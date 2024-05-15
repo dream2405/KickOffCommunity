@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>경기 모집 example</title>
+    <title></title>
+        
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         table {
@@ -24,89 +25,11 @@
 <span th:fragment="publish">
 <body>
     <div class="container">
-    <h2 class="my-4">경기 모집 예시</h2>
-    <table id="pubTable" class="table table-hover">
-        <thead class="table-light">
-            <tr>
-                <th>경기시간</th>
-                <th>경기장소</th>
-                <th>종목</th>
-                <th>인원</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Data will be dynamically added here -->
-        </tbody>
+    <h2 class="my-4">테니스 매칭 게시판</h2>
+    <a href="/tennis/publish/write" class="btn btn-primary mb-4">모집하기</a>
+    <a href="/tennis/publish/list" class="btn btn-primary mb-4">경기찾기</a>
     </table>
     </div>
-    <script>
-        const pubexample = [
-            {
-                time: "11:00",
-                location: "테니스 1구장",
-                sport: "복식",
-                capacity: "4/4" // 임의의 데이터
-            },
-            {
-                time: "13:00",
-                location: "테니스 1구장",
-                sport: "복식",
-                capacity: "2/4" // 임의의 데이터
-            },
-            {
-                time: "15:00",
-                location: "테니스 2구장",
-                sport: "복식",
-                capacity: "2/4" // 임의의 데이터
-            },
-            {
-                time: "17:00",
-                location: "테니스 2구장",
-                sport: "단식",
-                capacity: "1/2" // 임의의 데이터
-            },
-            {
-                time: "19:00",
-                location: "테니스 1구장",
-                sport: "복식",
-                capacity: "4/4" // 임의의 데이터
-            },
-            {
-                time: "19:00",
-                location: "테니스 2구장",
-                sport: "복식",
-                capacity: "1/4" // 임의의 데이터
-            },
-            {
-                time: "21:00",
-                location: "테니스 2구장",
-                sport: "복식",
-                capacity: "2/4" // 임의의 데이터
-            }
-        ];
-
-        const tbody = document.querySelector("#pubTable tbody");
-
-        // Loop through the data and create table rows
-        pubexample.forEach(game => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${game.time}</td>
-                <td>${game.location}</td>
-                <td>${game.sport}</td>
-                <td>${game.capacity}</td>
-                <td><button class="btn btn-primary" onclick="apply('${game.time}', '${game.location}', '${game.sport}')">참가신청</button></td>
-            `;
-            tbody.appendChild(row);
-        });
-
-        // Function to handle applying for the game
-        function apply(time, location, sport) {
-            alert("임시 창(추후 참가 기능 구현 예정)");
-            // Add your logic here to handle the application
-        }
-    </script>
 </body>
 </span>
 </html>

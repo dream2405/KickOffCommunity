@@ -1,5 +1,7 @@
 package org.example.kickoffcommunity;
 
+import org.example.kickoffcommunity.board.boardService.TennisBoardService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,11 @@ import java.util.List;
 public class TennisLayoutController {
     // 테스트용 목업 데이터 - 추후 DB로 교체 예정
     private List<MockUpTeamData> datas = new ArrayList<>();
+
+
+    @Autowired
+    private TennisBoardService tennisBoardService;
+
 
     // 테니스탭의 초기 페이지는 팀
     @GetMapping()
@@ -57,6 +64,9 @@ public class TennisLayoutController {
     public String publishLayout(Model model) {
         model.addAttribute("menu", "publish");
         model.addAttribute("pubExample", datas);
+
+        
+
         return "main";
     }
 
