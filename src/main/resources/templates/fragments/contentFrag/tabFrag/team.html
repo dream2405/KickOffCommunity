@@ -8,13 +8,15 @@
 <span th:fragment="team">
     <div class="container border">
         <div class="row row-cols-4 row-cols-md-5 mb-3 text-center"> <!-- gap 클래스 사용 -->
-            <div class="col" th:each="teamData, iterStat: ${teamDatas}">
+            <div class="col" th:each="teamData: ${teamDatas}">
                 <div class="card mb-4 rounded-3 shadow-sm">
-                    <a th:href="@{/tennis/team/desc/{idx}(idx=${iterStat.index})}">
-                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="...">
+                    <div class="image-container">
+                        <a th:href="@{/tennis/team/desc/{id}(id=${teamData.id})}">
+                        <img th:src="@{{filePath}(filePath=${teamData.imgPath})}" class="card-img-top" alt="..." style="object-fit: contain">
                     </a>
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title" th:text="${teamData.teamName}"></h5>
+                        <h5 class="card-title" th:text="${teamData.name}"></h5>
                     </div>
                 </div>
             </div>

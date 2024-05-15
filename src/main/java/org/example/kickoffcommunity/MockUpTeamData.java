@@ -4,5 +4,6 @@ public record MockUpTeamData(
         String teamName,
         String leaderName,
         String squad,
-        String desc
+        String desc,
+        String filepath
 ) { }
