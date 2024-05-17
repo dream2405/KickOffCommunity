@@ -1,0 +1,73 @@
+.layout {
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-left: 100px; /* 좌측 여백 */
+    margin-right: 100px; /* 우측 여백 */
+}
+.layout input,
+.layout textarea {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+.layout textarea {
+    min-height: 200px;
+}
+.layout button {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.layout button:hover {
+    background-color: #0056b3;
+}
+/* 스타일링 */
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+.day {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    cursor: pointer; /* 날짜를 클릭할 때 커서 변경 */
+}
+.day.available {
+    background-color: lightgreen;
+}
+.day.booked {
+    background-color: lightcoral;
+}
+.left {
+    float: left;
+    width: 40%;
+}
+.right {
+    float: right;
+    width: 40%;
+}
+.month {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.controls {
+    text-align: center;
+    margin-bottom: 10px;
+}
+#calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* 여백 추가 */
+}
+
+#calendar-header button {
+    font-size: 14px; /* 작은 크기로 설정 */
+    padding: 5px 10px; /* 여백 조정 */
+}

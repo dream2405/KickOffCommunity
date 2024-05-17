@@ -1,8 +1,12 @@
 package org.example.kickoffcommunity.board.boardController;
 
+import java.util.List;
+
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +24,12 @@ public class TennisBoardController {
         model.addAttribute("tenniswrite", tennisBoardService.tennisBoardList());
 
         return "fragments/contentFrag/tabFrag/boardFrag/tennis/tennisboardwrite";
+    }
+
+    @GetMapping("/api/tennis")
+    public ResponseEntity<List<TennisEntity>> getTennisData() {
+        List<TennisEntity> tennisData = tennisBoardService.tennisBoardList();
+        return new ResponseEntity<>(tennisData, HttpStatus.OK);
     }
     
     @PostMapping("tennis/publish/writepro")

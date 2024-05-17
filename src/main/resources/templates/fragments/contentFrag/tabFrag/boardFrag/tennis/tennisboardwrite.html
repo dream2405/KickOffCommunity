@@ -4,105 +4,51 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>게시물 작성폼</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .layout {
-            margin: 0 auto;
-            margin-top: 40px;
-            margin-left: 100px; /* 좌측 여백 */
-            margin-right: 100px; /* 우측 여백 */
-        }
-        .layout input,
-        .layout textarea {
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 10px;
-        }
-        .layout textarea {
-            min-height: 200px;
-        }
-        .layout button {
-            display: block;
-            width: 50%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .layout button:hover {
-            background-color: #0056b3;
-        }
-        /* 스타일링 */
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-        }
-        .day {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: center;
-            cursor: pointer; /* 날짜를 클릭할 때 커서 변경 */
-        }
-        .day.available {
-            background-color: lightgreen;
-        }
-        .day.booked {
-            background-color: lightcoral;
-        }
-        .left {
-            float: left;
-            width: 40%;
-        }
-        .right {
-            float: right;
-            width: 40%;
-        }
-        .month {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .controls {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-    </style>
-    </head>
-    <body>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link th:href="@{/css/TBWstyle.css}" rel="stylesheet">
+</head>
+<body>
     <div>
         <a href="/tennis/publish" class="btn btn-secondary">뒤로가기</a>
     </div>
     <div class="layout">
         <form id="tennisForm" action="/tennis/publish/writepro" method="post" onsubmit="return validateForm()">
-            
-    
             <div class="left">
                 <p class="fw-semibold">테니스 구장별 예약 현황</p>
                 <hr>
                 <div>
-                <h>구장 선택: </h>
+                    <h>구장 선택: </h>
                     <select name="location" id="location">
                         <option value="테니스A구장">테니스A구장</option>
-                        <option value="테니스B구장">테니스B구장</option>
                     </select>
                 </div>
                 <br>
+                <div id="calendar-header">
+                    <button type="button" onclick="prevMonth()">이전 달</button>
+                    
+                    <button type="button" onclick="nextMonth()">다음 달</button>
+
+                </div>
+                <div><span id="currentMonthYear"></span></div>
                 <div class="calendar"></div>
                 <div id="availability"></div> <!-- 예약 가능 여부 표시 -->
-                <div class="controls">
-                    <button onclick="prevMonth()">이전 달</button>
-                    <button onclick="nextMonth()">다음 달</button>
-                </div>
             </div>
-    
+
             <div class="right">
                 <p class="fw-semibold">테니스 예약 날짜/시간 선택</p>
                 <hr>
                 <input name="date" type="date" placeholder="경기 일자">
                 <div id="reservedTimes"></div>
-                
+                <select name="reservedtime" id="reservedtime">
+                    <option value="7">7시</option>
+                    <option value="9">9시</option>
+                    <option value="11">11시</option>
+                    <option value="13">13시</option>
+                    <option value="15">15시</option>
+                    <option value="17">17시</option>
+                    <option value="19">19시</option>
+                    <option value="21">21시</option>
+                </select>
                 <input name="sport" type="text" placeholder="종목명">
                 <input name="capacity" type="text" placeholder="정원">
                 <textarea name="maintext" placeholder="내용을 입력하세요"></textarea>
@@ -110,116 +56,6 @@
             </div>
         </form>
     </div>
-    <script>
-        // 모델로부터 데이터 가져오기 (예시)
-        const tennisWrite = [
-            { date: '2024-05-01', reservedtime: 9 },
-            { date: '2024-05-02', reservedtime: 13 },
-            { date: '2024-05-03', reservedtime: 16 },
-        ];
-
-        // 예약 가능한 시간대
-        const availableTimes = [7, 9, 11, 13, 15, 17, 19, 21];
-
-        // 현재 연도와 월
-        let currentYear = new Date().getFullYear();
-        let currentMonth = new Date().getMonth();
-
-        // 캘린더 생성
-        function createCalendar(data) {
-            const calendar = document.querySelector('.calendar');
-            const today = new Date();
-
-            // 이전 달의 마지막 날짜
-            const prevMonthLastDate = new Date(currentYear, currentMonth, 0).getDate();
-            // 현재 달의 마지막 날짜
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
-            // 달력 위에 연도와 월 표시
-            const monthElement = document.createElement('div');
-            monthElement.classList.add('month');
-            monthElement.textContent = `${currentYear}년 ${currentMonth + 1}월`;
-            calendar.appendChild(monthElement);
-
-            // 캘린더에 날짜 추가
-            for (let i = 1; i <= daysInMonth; i++) {
-                const date = new Date(currentYear, currentMonth, i);
-                const dateString = date.toISOString().split('T')[0];
-                const reservedData = data.find(item => item.date === dateString);
-
-                const dayElement = document.createElement('div');
-                dayElement.classList.add('day');
-                dayElement.textContent = `${currentMonth + 1}/${i}`; // 월/일 형태로 표시
-
-                // 예약 가능한 시간대 확인
-                if (reservedData) {
-                    if (reservedData.reservedtime >= 0 && reservedData.reservedtime <= 12) {
-                        dayElement.classList.add('booked');
-                    } else {
-                        dayElement.classList.add('available');
-                    }
-                } else {
-                    dayElement.classList.add('available');
-                }
-
-                // 날짜 클릭 이벤트 추가
-                dayElement.addEventListener('click', () => {
-                    const reservedTimesContainer = document.getElementById('reservedTimes');
-                    reservedTimesContainer.innerHTML = ''; // 이전에 추가된 정보 지우기
-
-                    if (reservedData) {
-                        const reservedTimeText = document.createElement('p');
-                        reservedTimeText.textContent = '예약됨';
-                        reservedTimesContainer.appendChild(reservedTimeText);
-                    } else {
-                        const availableTimesText = document.createElement('p');
-                        availableTimesText.textContent = '예약 가능한 시간대:';
-                        
-                        availableTimes.forEach(time => {
-                            const timeText = document.createElement('span');
-                            timeText.textContent = `${time}시 `;
-                            availableTimesText.appendChild(timeText);
-                        });
-
-                        reservedTimesContainer.appendChild(availableTimesText);
-                    }
-                });
-
-                calendar.appendChild(dayElement);
-            }
-        }
-
-        // 캘린더 생성 함수 호출
-        createCalendar(tennisWrite);
-
-        // 이전 달로 이동
-        function prevMonth() {
-            if (currentMonth === 0) {
-                currentYear--;
-                currentMonth = 11;
-            } else {
-                currentMonth--;
-            }
-            updateCalendar();
-        }
-
-        // 다음 달로 이동
-        function nextMonth() {
-            if (currentMonth === 11) {
-                currentYear++;
-                currentMonth = 0;
-            } else {
-                currentMonth++;
-            }
-            updateCalendar();
-        }
-
-        // 캘린더 업데이트 함수
-        function updateCalendar() {
-            const calendar = document.querySelector('.calendar');
-            calendar.innerHTML = ''; // 기존 캘린더 내용 지우기
-            createCalendar(tennisWrite); // 새로운 달력 생성
-        }
-    </script>
+    <script th:src="@{/js/TBWjs.js}"></script>
 </body>
 </html>
