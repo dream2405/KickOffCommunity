@@ -88,4 +88,17 @@ public class TennisBoardController {
         tennisBoardService.updateTeamB(id, teamB);
         return "redirect:/tennis/publish/list";
     }
+ 
+    @GetMapping("/enter-score/{id}")
+    public String enterScore(@PathVariable("id") Integer id, Model model) {
+        TennisEntity tennisEntity = tennisBoardService.boardView(id);
+        model.addAttribute("tennisentity", tennisEntity);
+        return "fragments/contentFrag/tabFrag/matchFrag/enter_score";
+    }
+
+    @PostMapping("/tennis/calender/score")
+    public String ScoreInsert(@RequestParam("score") String score, @RequestParam("id") Integer id) {
+        tennisBoardService.updateScore(id, score);
+        return "redirect:/tennis/calender";
+    }
 }

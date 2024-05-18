@@ -1,18 +1,48 @@
-<!-- enter-score.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter Score</title>
+    <title>경기 결과 입력</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        // 폼 제출을 처리하는 JavaScript 함수
+        function submitForm(event) {
+            event.preventDefault(); // 폼 제출 기본 동작 방지
+
+            // 입력된 값 가져오기
+            const score = document.getElementById('score').value;
+            const matchId = document.getElementById('matchId').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // score와 matchId 값이 유효한지 확인
+            if (score && matchId) {
+                // 폼 데이터가 유효한 경우 폼 제출
+                const form = document.getElementById('scoreForm');
+                form.submit();
+            } else {
+                // 유효하지 않은 경우 오류 메시지 표시
+                errorMessage.textContent = '입력값을 확인해주세요.';
+            }
+        }
+    </script>
 </head>
 <body>
-    <h1>Enter Score</h1>
-    <form action="/save-score" method="post">
-        <label for="score">Score:</label>
-        <input type="text" id="score" name="score" required>
-        <input type="hidden" id="matchId" name="matchId" th:value="${matchId}">
-        <button type="submit">Save</button>
-    </form>
+    <div class="container">
+        <h2>경기 결과 입력</h2>
+        <form id="scoreForm" action="/save-score" method="post" onsubmit="submitForm(event)">
+            <div class="form-group">
+                <label for="score">스코어</label>
+                <input type="text" id="score" name="score" placeholder="스코어 입력" required class="form-control">
+            </div>
+            <div class="form-group">
+                <!-- 템플릿 엔진으로부터 전달받은 matchId -->
+                <input type="hidden" id="matchId" name="matchId" th:value="${tennisentity.tn_id}">
+            </div>
+            <button type="submit" class="btn btn-primary">저장</button>
+            <!-- 오류 메시지를 표시할 공간 -->
+            <p id="error-message" style="color: red;"></p>
+        </form>
+    </div>
 </body>
 </html>

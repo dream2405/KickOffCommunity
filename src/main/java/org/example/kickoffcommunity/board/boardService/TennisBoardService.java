@@ -52,4 +52,11 @@ public class TennisBoardService {
         tennisboardRepository.save(tennisEntity);
         
     }
+    public void updateScore(Integer id, String score) {
+        TennisEntity tennisEntity = tennisboardRepository.findById(id).get();
+        
+        tennisEntity.setScore(score);
+        tennisboardRepository.save(tennisEntity);
+        
+    }
 }
