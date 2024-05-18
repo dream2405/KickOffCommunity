@@ -30,7 +30,9 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
 
     private String teamA;
 
-    public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport, Integer capacity, String maintext, String teamB, String teamA) {
+    private String score;
+
+    public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport, Integer capacity, String maintext, String teamB, String teamA, String score) {
         this.tn_id = tn_id;
         this.date = date;
         this.reservedtime = reservedtime;
@@ -40,6 +42,7 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
         this.maintext = maintext;
         this.teamB = teamB;
         this.teamA = teamA;
+        this.score = score;
     }
 
     public String getTeamB() {
@@ -65,6 +68,18 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
 
     public TennisEntity teamA(String teamA) {
         setTeamA(teamA);
+        return this;
+    }
+    public String getScore() {
+        return score;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public TennisEntity score(String score) {
+        this.score = score;
         return this;
     }
 

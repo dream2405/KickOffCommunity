@@ -2,10 +2,6 @@ package org.example.kickoffcommunity;
 
 import org.example.kickoffcommunity.database.Team;
 import org.example.kickoffcommunity.database.TeamService;
-import org.example.kickoffcommunity.match_record.MatchRecord;
-import org.example.kickoffcommunity.match_record.MatchRecordRepository;
-import org.example.kickoffcommunity.match_record.MatchSchedule;
-import org.example.kickoffcommunity.match_record.MatchScheduleRepository;
 import org.example.kickoffcommunity.storage.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
@@ -52,20 +48,16 @@ public class TennisLayoutController {
 
         return "main";
     }
-    @Autowired
-    private MatchRecordRepository matchRecordRepository;
-    @Autowired
-    private MatchScheduleRepository matchScheduleRepository;
-
+    
 
     @GetMapping("/calender")
     public String calenderLayout(Model model) {
-        List<MatchSchedule> schedules = matchScheduleRepository.findAll();
-        model.addAttribute("schedules", schedules);
+        model.addAttribute("tennislist", tennisBoardService.tennisBoardList());
+        
         model.addAttribute("menu", "calender");
         return "main";
     }
-
+   
     // 테니스 탭의 팀순위 버튼 클릭시 컨텐츠 model 제어
     @GetMapping("/ranking")
     public String rankingLayout(Model model) {
@@ -75,8 +67,7 @@ public class TennisLayoutController {
     }
     @GetMapping("/history")
     public String historyLayout(Model model) {
-        List<MatchRecord> records = matchRecordRepository.findAll();
-        model.addAttribute("records", records);
+        model.addAttribute("tennislist", tennisBoardService.tennisBoardList());
         model.addAttribute("menu", "history");
         return "main";
     }
