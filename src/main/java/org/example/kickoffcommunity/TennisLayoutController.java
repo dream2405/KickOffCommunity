@@ -2,6 +2,10 @@ package org.example.kickoffcommunity;
 
 import org.example.kickoffcommunity.database.Team;
 import org.example.kickoffcommunity.database.TeamService;
+import org.example.kickoffcommunity.match_record.MatchRecord;
+import org.example.kickoffcommunity.match_record.MatchRecordRepository;
+import org.example.kickoffcommunity.match_record.MatchSchedule;
+import org.example.kickoffcommunity.match_record.MatchScheduleRepository;
 import org.example.kickoffcommunity.storage.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
@@ -31,6 +35,7 @@ public class TennisLayoutController {
 
     @Autowired
     private TennisBoardService tennisBoardService;
+    
 
 
     // 테니스탭의 초기 페이지는 팀
@@ -47,12 +52,17 @@ public class TennisLayoutController {
 
         return "main";
     }
+    @Autowired
+    private MatchRecordRepository matchRecordRepository;
+    @Autowired
+    private MatchScheduleRepository matchScheduleRepository;
+
 
     @GetMapping("/calender")
     public String calenderLayout(Model model) {
+        List<MatchSchedule> schedules = matchScheduleRepository.findAll();
+        model.addAttribute("schedules", schedules);
         model.addAttribute("menu", "calender");
-        
-        model.addAttribute("calender", datas);
         return "main";
     }
 
@@ -65,9 +75,9 @@ public class TennisLayoutController {
     }
     @GetMapping("/history")
     public String historyLayout(Model model) {
+        List<MatchRecord> records = matchRecordRepository.findAll();
+        model.addAttribute("records", records);
         model.addAttribute("menu", "history");
-        // matches 데이터를 모델에 추가하여 템플릿에서 사용할 수 있도록 합니다.
-        model.addAttribute("matches", datas);
         return "main";
     }
     
