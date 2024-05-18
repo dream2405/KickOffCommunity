@@ -1,6 +1,5 @@
 package org.example.kickoffcommunity.storage;
 
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

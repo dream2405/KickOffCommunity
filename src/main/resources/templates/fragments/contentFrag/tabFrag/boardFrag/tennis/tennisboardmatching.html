@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테니스 매칭</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        // 폼 제출을 처리하는 JavaScript 함수
+        function submitForm(event) {
+            event.preventDefault(); // 폼 제출 기본 동작 방지
+
+            // 입력된 값 가져오기
+            const teamB = document.getElementById('teamB').value;
+            const tennisId = document.getElementById('id').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // 팀 B와 tennisId 값이 유효한지 확인
+            if (teamB && tennisId) {
+                // 폼 데이터가 유효한 경우 폼 제출
+                const form = document.getElementById('matchingForm');
+                form.submit();
+            } else {
+                // 유효하지 않은 경우 오류 메시지 표시
+                errorMessage.textContent = '입력값을 확인해주세요.';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>테니스 매칭</h2>
+        <form id="matchingForm" action="/tennis/publish/matchingpro" method="post" onsubmit="submitForm(event)">
+            <div class="form-group">
+                <label for="teamB">팀 B</label>
+                <input type="text" id="teamB" name="teamB" placeholder="소속팀입력" required>
+            </div>
+            <div class="form-group">
+                <!-- 템플릿 엔진으로부터 전달받은 tennisId -->
+                <input type="hidden" id="id" name="id" th:value="${tennisarticle.id}">
+            </div>
+            <button type="submit" class="btn btn-primary apply-btn">신청하기</button>
+            <!-- 오류 메시지를 표시할 공간 -->
+            <p id="error-message" style="color: red;"></p>
+        </form>
+    </div>
+</body>
+</html>

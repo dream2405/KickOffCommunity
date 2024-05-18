@@ -1,6 +1,5 @@
 package org.example.kickoffcommunity.database;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -9,7 +8,7 @@ import java.util.Optional;
 public class TeamService {
     private TeamRepository teamRepository;
 
-    @Autowired
+    
     public TeamService(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
     }
@@ -21,6 +20,7 @@ public class TeamService {
     public Optional<Team> findTeam(Integer id) {
         return teamRepository.findById(id);
     }
+    
 
     public Iterable<Team> findAllTeams() {
         return teamRepository.findAll();
@@ -57,4 +57,9 @@ public class TeamService {
             return null;
         }
     }
+
+    public boolean teamExists(String teamName) {
+        return teamRepository.existsByName(teamName);
+    }
+    
 }

@@ -32,14 +32,13 @@
                 <img src="https://www.plabfootball.com/img/logo.0b9054f3.png" alt="플랩 풋볼 로고" width="200">
             </div>
         </div>
-        <button class="btn btn-primary apply-btn" onclick="apply()">신청하기</button>
+        <div class="row">
+            <div class="col-md-6">
+                <a th:href="@{'/tennis/publish/matching?id=' + ${tennisarticle.id}}" class="btn btn-primary">매칭 보기</a>
+
+            </div>
+        </div>
     </div>
-    
-    <script>
-        function apply() {
-            // 여기에 신청하기 버튼을 눌렀을 때의 동작을 추가하세요
-            console.log("신청하기 버튼이 클릭되었습니다.");
-        }
-    </script>
 </body>
 </html>
+

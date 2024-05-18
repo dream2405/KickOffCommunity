@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.example.kickoffcommunity.board.boardRepository.TennisBoardRepository;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
+import org.example.kickoffcommunity.database.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class TennisBoardService {
     @Autowired
     private TennisBoardRepository tennisboardRepository;
     
+    @Autowired
+    private TeamRepository teamRepository;
+
     public void write(TennisEntity tennisentity){
 
         boolean exists = tennisboardRepository.existsByLocationAndDateAndReservedtime(tennisentity.getLocation(), tennisentity.getDate(), tennisentity.getReservedtime());
@@ -35,5 +39,17 @@ public class TennisBoardService {
     public TennisEntity boardView(Integer id){
 
         return tennisboardRepository.findById(id).get();
+    }
+    
+    public boolean teamExistsByName(String teamName) {
+        return teamRepository.findByName(teamName).isPresent();
+    }
+
+    public void updateTeamB(Integer id, String teamB) {
+        TennisEntity tennisEntity = tennisboardRepository.findById(id).get();
+        
+        tennisEntity.setTeamB(teamB);
+        tennisboardRepository.save(tennisEntity);
+        
     }
 }

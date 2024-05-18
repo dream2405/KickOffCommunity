@@ -12,7 +12,7 @@ import java.util.Objects;
 public class TennisEntity { //경기장 예약을 위해 생성한 Entity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer tn_id;
 
     private LocalDate date;
 
@@ -26,12 +26,54 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
 
     private String maintext;
 
+    private String teamB;
+
+    private String teamA;
+
+    public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport, Integer capacity, String maintext, String teamB, String teamA) {
+        this.tn_id = tn_id;
+        this.date = date;
+        this.reservedtime = reservedtime;
+        this.location = location;
+        this.sport = sport;
+        this.capacity = capacity;
+        this.maintext = maintext;
+        this.teamB = teamB;
+        this.teamA = teamA;
+    }
+
+    public String getTeamB() {
+        return this.teamB;
+    }
+
+    public void setTeamB(String teamB) {
+        this.teamB = teamB;
+    }
+
+    public String getTeamA() {
+        return this.teamA;
+    }
+
+    public void setTeamA(String teamA) {
+        this.teamA = teamA;
+    }
+
+    public TennisEntity teamB(String teamB) {
+        setTeamB(teamB);
+        return this;
+    }
+
+    public TennisEntity teamA(String teamA) {
+        setTeamA(teamA);
+        return this;
+    }
+
 
     public TennisEntity() {
     }
 
-    public TennisEntity(Integer id, LocalDate date, Integer reservedtime, String location, String sport, Integer capacity, String maintext) {
-        this.id = id;
+    public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport, Integer capacity, String maintext) {
+        this.tn_id = tn_id;
         this.date = date;
         this.reservedtime = reservedtime;
         this.location = location;
@@ -41,11 +83,11 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
     }
 
     public Integer getId() {
-        return this.id;
+        return this.tn_id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Integer tn_id) {
+        this.tn_id = tn_id;
     }
 
     public LocalDate getDate() {
@@ -96,8 +138,8 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
         this.maintext = maintext;
     }
 
-    public TennisEntity id(Integer id) {
-        setId(id);
+    public TennisEntity tn_id(Integer tn_id) {
+        setId(tn_id);
         return this;
     }
 
@@ -139,18 +181,18 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
             return false;
         }
         TennisEntity tennisEntity = (TennisEntity) o;
-        return Objects.equals(id, tennisEntity.id) && Objects.equals(date, tennisEntity.date) && Objects.equals(reservedtime, tennisEntity.reservedtime) && Objects.equals(location, tennisEntity.location) && Objects.equals(sport, tennisEntity.sport) && Objects.equals(capacity, tennisEntity.capacity) && Objects.equals(maintext, tennisEntity.maintext);
+        return Objects.equals(tn_id, tennisEntity.tn_id) && Objects.equals(date, tennisEntity.date) && Objects.equals(reservedtime, tennisEntity.reservedtime) && Objects.equals(location, tennisEntity.location) && Objects.equals(sport, tennisEntity.sport) && Objects.equals(capacity, tennisEntity.capacity) && Objects.equals(maintext, tennisEntity.maintext);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, reservedtime, location, sport, capacity, maintext);
+        return Objects.hash(tn_id, date, reservedtime, location, sport, capacity, maintext);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
+            " tn_id='" + getId() + "'" +
             ", date='" + getDate() + "'" +
             ", reservedtime='" + getReservedtime() + "'" +
             ", location='" + getLocation() + "'" +

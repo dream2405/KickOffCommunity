@@ -160,8 +160,9 @@ document.getElementById("tennisForm").addEventListener("submit", function(event)
     const sportInput = document.querySelector('input[name="sport"]');
     const capacityInput = document.querySelector('input[name="capacity"]');
     const maintextInput = document.querySelector('textarea[name="maintext"]');
+    const teamAInput = document.querySelector('input[name="teamA"]'); //teamB는 참여하기에서 추가
 
-    if (!dateInput.value || !reservedTimeInput.value || !sportInput.value || !capacityInput.value || !maintextInput.value) {
+    if (!dateInput.value || !reservedTimeInput.value || !sportInput.value || !capacityInput.value || !maintextInput.value || !teamAInput.value) {
         alert("모든 내용을 입력해주세요.");
         event.preventDefault(); // 페이지 이동을 막음
     }
