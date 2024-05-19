@@ -1,149 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 <span th:fragment="ranking">
-    <style>
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
-      
-        table, th, td {
-          border: 1px solid black;
-        }
-      
-        th, td {
-          padding: 10px;
-          text-align: center;
-        }
-      
-        th {
-          background-color: #f2f2f2;
-        }
-      </style>
-<body>
-<table>
-    <thead>
-        <tr>
-            <th>팀 순위</th>
-            <th>팀 이름</th>
-            <th>팀 경기수</th>
-            <th>팀 승리횟수</th>
-            <th>팀 패배횟수</th>
-            <th>팀 승점</th>
-        </tr>
-    </thead>
-    <tbody id="teamTableBody">
-        <!-- 여기에 팀별 정보가 동적으로 추가될 것입니다. -->
-    </tbody>
-</table>
 
-<script>
-    // 주어진 경기 결과 데이터
-    var matches = [
-    {date: "2024년 4월 1일", time: "오후 2시", team1: "팀 1", team2: "팀 4", score: "3-2", location: "테니스장 A"},
-          {date: "2024년 4월 1일", time: "오후 4시", team1: "팀 2", team2: "팀 3", score: "3-1", location: "테니스장 B"},
-          {date: "2024년 4월 1일", time: "오후 6시", team1: "팀 6", team2: "팀 5", score: "3-2", location: "테니스장 C"},
-          {date: "2024년 4월 2일", time: "오후 2시", team1: "팀 7", team2: "팀 8", score: "3-1", location: "테니스장 A"},
-          {date: "2024년 4월 2일", time: "오후 4시", team1: "팀 9", team2: "팀 10", score: "3-0", location: "테니스장 B"},
-          {date: "2024년 4월 2일", time: "오후 6시", team1: "팀 2", team2: "팀 1", score: "3-1", location: "테니스장 A"},
-          {date: "2024년 4월 3일", time: "오후 2시", team1: "팀 4", team2: "팀 3", score: "3-0", location: "테니스장 B"},
-          {date: "2024년 4월 3일", time: "오후 4시", team1: "팀 5", team2: "팀 6", score: "3-2", location: "테니스장 C"},
-          {date: "2024년 4월 3일", time: "오후 6시", team1: "팀 7", team2: "팀 8", score: "3-1", location: "테니스장 A"},
-          {date: "2024년 4월 4일", time: "오후 2시", team1: "팀 9", team2: "팀 10", score: "3-2", location: "테니스장 B"},
-          {date: "2024년 4월 4일", time: "오후 4시", team1: "팀 1", team2: "팀 6", score: "3-1", location: "테니스장 C"},
-          {date: "2024년 4월 4일", time: "오후 6시", team1: "팀 3", team2: "팀 4", score: "3-0", location: "테니스장 A"},
-          {date: "2024년 4월 5일", time: "오후 2시", team1: "팀 5", team2: "팀 2", score: "3-2", location: "테니스장 B"},
-          {date: "2024년 4월 5일", time: "오후 4시", team1: "팀 7", team2: "팀 8", score: "3-1", location: "테니스장 C"},
-          {date: "2024년 4월 5일", time: "오후 6시", team1: "팀 9", team2: "팀 10", score: "3-0", location: "테니스장 A"},
-          {date: "2024년 4월 6일", time: "오후 2시", team1: "팀 1", team2: "팀 2", score: "3-2", location: "테니스장 B"},
-          {date: "2024년 4월 6일", time: "오후 4시", team1: "팀 3", team2: "팀 8", score: "3-1", location: "테니스장 C"},
-          {date: "2024년 4월 6일", time: "오후 6시", team1: "팀 5", team2: "팀 10", score: "3-0", location: "테니스장 A"},
-          {date: "2024년 4월 7일", time: "오후 2시", team1: "팀 7", team2: "팀 4", score: "3-2", location: "테니스장 B"},
-          {date: "2024년 4월 7일", time: "오후 4시", team1: "팀 9", team2: "팀 2", score: "3-1", location: "테니스장 C"},
-          {date: "2024년 4월 7일", time: "오후 6시", team1: "팀 1", team2: "팀 4", score: "3-0", location: "테니스장 B"},
-          {date: "2024년 4월 8일", time: "오후 2시", team1: "팀 6", team2: "팀 3", score: "3-2", location: "테니스장 C"},
-          {date: "2024년 4월 8일", time: "오후 4시", team1: "팀 5", team2: "팀 8", score: "3-1", location: "테니스장 A"},
-          {date: "2024년 4월 8일", time: "오후 6시", team1: "팀 10", team2: "팀 7", score: "3-2", location: "테니스장 B"},
-          {date: "2024년 4월 9일", time: "오후 2시", team1: "팀 9", team2: "팀 2", score: "3-1", location: "테니스장 C"},
-          {date: "2024년 4월 9일", time: "오후 4시", team1: "팀 4", team2: "팀 1", score: "3-0", location: "테니스장 A"},
-          {date: "2024년 4월 9일", time: "오후 6시", team1: "팀 3", team2: "팀 6", score: "3-2", location: "테니스장 B"},
-          {date: "2024년 4월 10일", time: "오후 2시", team1: "팀 5", team2: "팀 8", score: "3-1", location: "테니스장 C"},
-          {date: "2024년 4월 10일", time: "오후 4시", team1: "팀 10", team2: "팀 7", score: "3-0", location: "테니스장 A"},
-          {date: "2024년 4월 10일", time: "오후 6시", team1: "팀 9", team2: "팀 6", score: "3-2", location: "테니스장 B"},
-          {date: "2024년 4월 11일", time: "오후 2시", team1: "팀 4", team2: "팀 1", score: "3-1", location: "테니스장 C"},
-          {date: "2024년 4월 11일", time: "오후 4시", team1: "팀 3", team2: "팀 10", score: "3-0", location: "테니스장 A"},
-          {date: "2024년 4월 11일", time: "오후 6시", team1: "팀 2", team2: "팀 7", score: "3-2", location: "테니스장 B"},
-          {date: "2024년 4월 12일", time: "오후 2시", team1: "팀 5", team2: "팀 10", score: "3-1", location: "테니스장 C"}
-        ];
-
-    // 각 팀의 승리 횟수와 승점을 저장할 객체
-    var teamStats = {};
-
-    // 경기 결과를 순회하며 팀별 승리 횟수와 승점 계산
-    matches.forEach(function(match) {
-        var score = match.score.split('-');
-        var team1Score = parseInt(score[0]);
-        var team2Score = parseInt(score[1]);
-
-        // 팀 1의 승리
-        if (team1Score > team2Score) {
-            if (!teamStats[match.team1]) {
-                teamStats[match.team1] = { wins: 1, losses: 0, points: 1 };
-            } else {
-                teamStats[match.team1].wins++;
-                teamStats[match.team1].points++;
-            }
-            if (!teamStats[match.team2]) {
-                teamStats[match.team2] = { wins: 0, losses: 1, points: 0 };
-            } else {
-                teamStats[match.team2].losses++;
-            }
-        }
-        // 팀 2의 승리
-        else if (team2Score > team1Score) {
-            if (!teamStats[match.team2]) {
-                teamStats[match.team2] = { wins: 1, losses: 0, points: 1 };
-            } else {
-                teamStats[match.team2].wins++;
-                teamStats[match.team2].points++;
-            }
-            if (!teamStats[match.team1]) {
-                teamStats[match.team1] = { wins: 0, losses: 1, points: 0 };
-            } else {
-                teamStats[match.team1].losses++;
-            }
-        }
-        // 무승부일 경우 승점은 부여되지 않음
-    });
-
-    // 팀별 승점을 기준으로 내림차순으로 정렬
-    var sortedTeams = Object.keys(teamStats).sort(function(a, b) {
-        return teamStats[b].points - teamStats[a].points;
-    });
-
-    // 각 팀의 승리 횟수와 승점을 배열로 나타내기
-    var teamStandings = sortedTeams.map(function(team, index) {
-        return { rank: index + 1, team: team, games: teamStats[team].wins + teamStats[team].losses, wins: teamStats[team].wins, losses: teamStats[team].losses, points: teamStats[team].points };
-    });
-
-    // 결과를 테이블에 출력
-    var tbody = document.getElementById("teamTableBody");
-    teamStandings.forEach(function(team) {
-        var row = "<tr>";
-        row += "<td>" + team.rank + "</td>";
-        row += "<td>" + team.team + "</td>";
-        row += "<td>" + team.games + "</td>";
-        row += "<td>" + team.wins + "</td>";
-        row += "<td>" + team.losses + "</td>";
-        row += "<td>" + team.points + "</td>";
-        row += "</tr>";
-        tbody.innerHTML += row;
-    });
-</script>
-</body>
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>팀 순위</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <h2 class="my-4">팀 순위</h2>
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>순위</th>
+                        <th>팀 이름</th>
+                        <th>승</th>
+                        <th>무</th>
+                        <th>패</th>
+                        <th>승점</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="ranking, iterStat : ${rankings}">
+                        <td th:text="${iterStat.index + 1}"></td>
+                        <td th:text="${ranking.teamName}"></td>
+                        <td th:text="${ranking.wins}"></td>
+                        <td th:text="${ranking.draws}"></td>
+                        <td th:text="${ranking.losses}"></td>
+                        <td th:text="${ranking.points}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+    </html>
 </span>
-</html>

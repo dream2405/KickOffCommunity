@@ -1,8 +1,13 @@
 package org.example.kickoffcommunity.board.boardService;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.example.kickoffcommunity.board.boardRepository.TennisBoardRepository;
+import org.example.kickoffcommunity.board.entity.TeamRanking;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
 import org.example.kickoffcommunity.database.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +63,39 @@ public class TennisBoardService {
         tennisEntity.setScore(score);
         tennisboardRepository.save(tennisEntity);
         
+    }
+        public List<TeamRanking> calculateTeamRankings() {
+        List<TennisEntity> completedMatches = tennisboardRepository.findByScoreIsNotNull();
+        Map<String, TeamRanking> teamRankingMap = new HashMap<>();
+
+        for (TennisEntity match : completedMatches) {
+            String[] scores = match.getScore().split(":");
+            int scoreA = Integer.parseInt(scores[0].trim());
+            int scoreB = Integer.parseInt(scores[1].trim());
+
+            String teamA = match.getTeamA();
+            String teamB = match.getTeamB();
+
+            teamRankingMap.putIfAbsent(teamA, new TeamRanking(teamA));
+            teamRankingMap.putIfAbsent(teamB, new TeamRanking(teamB));
+
+            TeamRanking rankingA = teamRankingMap.get(teamA);
+            TeamRanking rankingB = teamRankingMap.get(teamB);
+
+            if (scoreA > scoreB) {
+                rankingA.addWin();
+                rankingB.addLoss();
+            } else if (scoreA < scoreB) {
+                rankingA.addLoss();
+                rankingB.addWin();
+            } else {
+                rankingA.addDraw();
+                rankingB.addDraw();
+            }
+        }
+
+        return teamRankingMap.values().stream()
+                .sorted(Comparator.comparing(TeamRanking::getPoints).reversed())
+                .collect(Collectors.toList());
     }
 }

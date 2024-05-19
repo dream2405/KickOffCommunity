@@ -5,6 +5,7 @@ import org.example.kickoffcommunity.database.TeamService;
 import org.example.kickoffcommunity.storage.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
+import org.example.kickoffcommunity.board.entity.TeamRanking;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,10 +60,11 @@ public class TennisLayoutController {
     }
    
     // 테니스 탭의 팀순위 버튼 클릭시 컨텐츠 model 제어
-    @GetMapping("/ranking")
+     @GetMapping("/ranking")
     public String rankingLayout(Model model) {
+        List<TeamRanking> rankings = tennisBoardService.calculateTeamRankings();
+        model.addAttribute("rankings", rankings);
         model.addAttribute("menu", "ranking");
-        model.addAttribute("ranking", datas);
         return "main";
     }
     @GetMapping("/history")
