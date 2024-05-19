@@ -6,60 +6,60 @@
     <title>게시물 작성폼</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link th:href="@{/css/TBWstyle.css}" rel="stylesheet">
+    
 </head>
 <body>
-    <div>
-        <a href="/tennis/publish" class="btn btn-secondary">뒤로가기</a>
-    </div>
-    <div class="layout">
-        <form id="tennisForm" action="/tennis/publish/writepro" method="post" onsubmit="return validateForm()">
-            <div class="left">
-                <p class="fw-semibold">테니스 구장별 예약 현황</p>
-                <hr>
-                <div>
-                    <h>구장 선택: </h>
-                    <select name="location" id="location">
-                        <option value="테니스A구장">테니스A구장</option>
+    <!-- 부모 요소로 감싸기 -->
+    <div class="form-wrapper">
+        <div class="goback">
+            <a href="/tennis/publish" class="btn btn-secondary">뒤로가기</a>
+        </div>
+        <div class="layout">
+            <form id="tennisForm" action="/tennis/publish/writepro" method="post" onsubmit="return validateForm()">
+                <div class="left">
+                    <p class="fw-semibold">테니스 구장별 예약 현황</p>
+                    <hr>
+                    <div>
+                        <h>구장 선택: </h>
+                        <select name="location" id="location">
+                            <option value="테니스A구장">테니스A구장</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div id="calendar-header">
+                        <button type="button" class="btn btn-outline-secondary" onclick="prevMonth()">이전 달</button>
+                        <button type="button" class="btn btn-outline-secondary" onclick="nextMonth()">다음 달</button>
+                    </div>
+                    <div><span id="currentMonthYear"></span></div>
+                    <div class="calendar"></div>
+                    <div id="availability"></div> <!-- 예약 가능 여부 표시 -->
+                </div>
+
+                <div class="right">
+                    <p class="fw-semibold">테니스 예약 날짜/시간 선택</p>
+                    <hr>
+                    <input name="date" type="date" placeholder="경기 일자">
+                    <div id="reservedTimes"></div>
+                    <select name="reservedtime" id="reservedtime">
+                        <option value="7">7시</option>
+                        <option value="9">9시</option>
+                        <option value="11">11시</option>
+                        <option value="13">13시</option>
+                        <option value="15">15시</option>
+                        <option value="17">17시</option>
+                        <option value="19">19시</option>
+                        <option value="21">21시</option>
                     </select>
+                    <select name="sport" id="sport" placeholder="종목명">
+                        <option value="단식">단식</option>
+                        <option value="복식">복식</option>
+                    </select>
+                    <input name="teamA" type="text" placeholder="소속팀이름">
+                    <textarea name="maintext" placeholder="내용을 입력하세요"></textarea>
+                    <button type="submit" class="btn btn-primary">작성</button>
                 </div>
-                <br>
-                <div id="calendar-header">
-                    <button type="button" onclick="prevMonth()">이전 달</button>
-                    
-                    <button type="button" onclick="nextMonth()">다음 달</button>
-
-                </div>
-                <div><span id="currentMonthYear"></span></div>
-                <div class="calendar"></div>
-                <div id="availability"></div> <!-- 예약 가능 여부 표시 -->
-            </div>
-
-            <div class="right">
-                <p class="fw-semibold">테니스 예약 날짜/시간 선택</p>
-                <hr>
-                <input name="date" type="date" placeholder="경기 일자">
-                <div id="reservedTimes"></div>
-                <select name="reservedtime" id="reservedtime">
-                    <option value="7">7시</option>
-                    <option value="9">9시</option>
-                    <option value="11">11시</option>
-                    <option value="13">13시</option>
-                    <option value="15">15시</option>
-                    <option value="17">17시</option>
-                    <option value="19">19시</option>
-                    <option value="21">21시</option>
-                </select>
-                <select name="sport" id="sport" placeholder="종목명">
-                    <option value="단식">단식</option>
-                    <option value="복식">복식</option>
-                </select>
-                <input name="teamA" type="text" placeholder="소속팀이름">
-                <input name="capacity" type="text" placeholder="정원">
-                <textarea name="maintext" placeholder="내용을 입력하세요"></textarea>
-                <button type="submit">작성</button>
-
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <script th:src="@{/js/TBWjs.js}"></script>
 </body>

@@ -22,8 +22,6 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
 
     private String sport;
 
-    private Integer capacity;
-
     private String maintext;
 
     private String teamB;
@@ -32,13 +30,12 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
 
     private String score;
 
-    public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport, Integer capacity, String maintext, String teamB, String teamA, String score) {
+    public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport, String maintext, String teamB, String teamA, String score) {
         this.tn_id = tn_id;
         this.date = date;
         this.reservedtime = reservedtime;
         this.location = location;
         this.sport = sport;
-        this.capacity = capacity;
         this.maintext = maintext;
         this.teamB = teamB;
         this.teamA = teamA;
@@ -87,13 +84,12 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
     public TennisEntity() {
     }
 
-    public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport, Integer capacity, String maintext) {
+    public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport,String maintext) {
         this.tn_id = tn_id;
         this.date = date;
         this.reservedtime = reservedtime;
         this.location = location;
         this.sport = sport;
-        this.capacity = capacity;
         this.maintext = maintext;
     }
 
@@ -137,14 +133,7 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
         this.sport = sport;
     }
 
-    public Integer getCapacity() {
-        return this.capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
-
+    
     public String getMaintext() {
         return this.maintext;
     }
@@ -178,11 +167,7 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
         return this;
     }
 
-    public TennisEntity capacity(Integer capacity) {
-        setCapacity(capacity);
-        return this;
-    }
-
+    
     public TennisEntity maintext(String maintext) {
         setMaintext(maintext);
         return this;
@@ -196,12 +181,12 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
             return false;
         }
         TennisEntity tennisEntity = (TennisEntity) o;
-        return Objects.equals(tn_id, tennisEntity.tn_id) && Objects.equals(date, tennisEntity.date) && Objects.equals(reservedtime, tennisEntity.reservedtime) && Objects.equals(location, tennisEntity.location) && Objects.equals(sport, tennisEntity.sport) && Objects.equals(capacity, tennisEntity.capacity) && Objects.equals(maintext, tennisEntity.maintext);
+        return Objects.equals(tn_id, tennisEntity.tn_id) && Objects.equals(date, tennisEntity.date) && Objects.equals(reservedtime, tennisEntity.reservedtime) && Objects.equals(location, tennisEntity.location) && Objects.equals(sport, tennisEntity.sport)  && Objects.equals(maintext, tennisEntity.maintext);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tn_id, date, reservedtime, location, sport, capacity, maintext);
+        return Objects.hash(tn_id, date, reservedtime, location, sport, maintext);
     }
 
     @Override
@@ -212,7 +197,6 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
             ", reservedtime='" + getReservedtime() + "'" +
             ", location='" + getLocation() + "'" +
             ", sport='" + getSport() + "'" +
-            ", capacity='" + getCapacity() + "'" +
             ", maintext='" + getMaintext() + "'" +
             "}";
     }

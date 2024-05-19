@@ -71,3 +71,21 @@
     font-size: 14px; /* 작은 크기로 설정 */
     padding: 5px 10px; /* 여백 조정 */
 }
+.layout {
+    padding: 0 200px; /* 좌우 여백 설정 */
+}
+.goback{
+    padding: 0 300px;
+}
+/* 달력 스타일 */
+.calendar {
+    background-color: #f9f9f9;
+}
+
+/* 이전 달/다음 달 버튼 스타일 */
+#calendar-header button {
+    margin: 5px;
+}
+.form-wrapper {
+    background-color: #f2f2f28e;
+}

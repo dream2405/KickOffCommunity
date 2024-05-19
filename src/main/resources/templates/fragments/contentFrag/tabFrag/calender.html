@@ -32,7 +32,6 @@
                         <th>팀A</th>
                         <th>팀B</th>
                         <th>단식/복식</th>
-                        <th>인원</th>
                         <th>경기장소</th>
                         <th></th>
                     </tr>
@@ -44,7 +43,6 @@
                         <td th:text="${tennisentity.teamA}"></td>
                         <td th:text="${tennisentity.teamB}"></td>
                         <td th:text="${tennisentity.sport}"></td>
-                        <td th:text="${tennisentity.capacity}"></td>
                         <td th:text="${tennisentity.location}"></td>
                         <td>
                             <form action="/tennis/calender/score" method="post" class="d-flex">

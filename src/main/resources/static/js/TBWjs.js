@@ -84,6 +84,17 @@ function updateAvailability(today, data) {
 
 // 예약 가능한 시간대 표시 함수
 function displayAvailableTime() {
+    const calendarDays = document.querySelectorAll('.day');
+    calendarDays.forEach(day => {
+        day.classList.remove('booked');
+        day.classList.remove('disabled');
+        day.classList.add('available');
+        day.classList.add('clickable');
+        day.addEventListener('click', () => {
+            displayAvailableTime();
+        });
+    });
+
     const reservedTimesContainer = document.getElementById('reservedTimes');
     reservedTimesContainer.innerHTML = ''; // 이전에 추가된 정보 지우기
 
@@ -101,6 +112,17 @@ function displayAvailableTime() {
 
 // 예약된 시간대 표시 함수
 function displayReservedTime(reservedData) {
+    const calendarDays = document.querySelectorAll('.day');
+    calendarDays.forEach(day => {
+        day.classList.remove('available');
+        day.classList.remove('disabled');
+        day.classList.add('booked');
+        day.classList.add('clickable');
+        day.addEventListener('click', () => {
+            displayReservedTime(reservedData);
+        });
+    });
+
     const reservedTimesContainer = document.getElementById('reservedTimes');
     reservedTimesContainer.innerHTML = ''; // 이전에 추가된 정보 지우기
 
@@ -158,11 +180,10 @@ document.getElementById("tennisForm").addEventListener("submit", function(event)
     const dateInput = document.querySelector('input[name="date"]');
     const reservedTimeInput = document.querySelector('select[name="reservedtime"]');
     const sportInput = document.querySelector('input[name="sport"]');
-    const capacityInput = document.querySelector('input[name="capacity"]');
     const maintextInput = document.querySelector('textarea[name="maintext"]');
     const teamAInput = document.querySelector('input[name="teamA"]'); //teamB는 참여하기에서 추가
 
-    if (!dateInput.value || !reservedTimeInput.value || !sportInput.value || !capacityInput.value || !maintextInput.value || !teamAInput.value) {
+    if (!dateInput.value || !reservedTimeInput.value || !sportInput.value  || !maintextInput.value || !teamAInput.value) {
         alert("모든 내용을 입력해주세요.");
         event.preventDefault(); // 페이지 이동을 막음
     }

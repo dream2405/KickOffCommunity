@@ -64,15 +64,6 @@ public class TennisBoardController {
         return "fragments/contentFrag/tabFrag/boardFrag/tennis/tennisboardview";
     }
     
-    @GetMapping("tennis/publish/matching")
-    public String BoardMatchingView(Model model, @RequestParam("id") Integer id) {
-        TennisEntity tennisEntity = tennisBoardService.boardView(id);
-        // 매칭 페이지에 필요한 정보를 모두 모델에 추가
-        model.addAttribute("tennisarticle", tennisEntity);
-        model.addAttribute("teams", teamService.findAllTeams()); // 모든 팀 정보 가져오기
-        
-        return "fragments/contentFrag/tabFrag/boardFrag/tennis/tennisboardmatching";
-    }
         
     
     @GetMapping("/api/checkTeam") //team 테이블에 팀이 존재하는지 확인
