@@ -1,4 +1,4 @@
-package org.example.kickoffcommunity.database;
+package org.example.kickoffcommunity.database.team;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

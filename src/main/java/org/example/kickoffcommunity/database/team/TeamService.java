@@ -1,4 +1,4 @@
-package org.example.kickoffcommunity.database;
+package org.example.kickoffcommunity.database.team;
 
 import org.springframework.stereotype.Service;
 

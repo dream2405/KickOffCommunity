@@ -3,10 +3,8 @@ package org.example.kickoffcommunity.board.boardRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.example.kickoffcommunity.board.entity.TennisEntity;
-import org.example.kickoffcommunity.database.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

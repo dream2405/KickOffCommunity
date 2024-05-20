@@ -5,8 +5,7 @@ import java.util.List;
 
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
-import org.example.kickoffcommunity.database.Team;
-import org.example.kickoffcommunity.database.TeamService;
+import org.example.kickoffcommunity.database.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

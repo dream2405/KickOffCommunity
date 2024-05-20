@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.example.kickoffcommunity.board.boardRepository.TennisBoardRepository;
 import org.example.kickoffcommunity.board.entity.TeamRanking;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
-import org.example.kickoffcommunity.database.TeamRepository;
+import org.example.kickoffcommunity.database.team.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package org.example.kickoffcommunity;
 
-import org.example.kickoffcommunity.database.Team;
-import org.example.kickoffcommunity.database.TeamService;
+import org.example.kickoffcommunity.database.team.Team;
+import org.example.kickoffcommunity.database.team.TeamService;
 import org.example.kickoffcommunity.storage.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +68,7 @@ public class TennisLayoutController {
         model.addAttribute("menu", "ranking");
         return "main";
     }
+
     @GetMapping("/history")
     public String historyLayout(Model model) {
         model.addAttribute("tennislist", tennisBoardService.tennisBoardList());
@@ -96,26 +98,40 @@ public class TennisLayoutController {
     public String teamAdd(Model model) {
         model.addAttribute("sportsType", "tennis");
         model.addAttribute("team", new Team());
+        model.addAttribute("redirectURL", "/tennis/team");
         return "teamAdd";
     }
 
     @PostMapping("/submit")
-    public String submitUser(@ModelAttribute Team team, @RequestParam("file") MultipartFile file) {
-        if (!teamService.findByName(team.getName()) && !file.isEmpty()) {
-            String fileName = file.getOriginalFilename();
-            String fileFormat = fileName.substring(fileName.lastIndexOf("."));
-            String name = UUID.randomUUID() + fileFormat;
-
-            fileUploadService.uploadFile(file, name);
-
-            team.setType("tennis");
-            team.setImgPath("/img/tennis/" + name);
-
-            teamService.insertTeam(team);
-
-            return "redirect:/tennis/team";
+    public String submitUser(@ModelAttribute Team team, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        if (team.getName() == null || team.getName().isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "팀이름을 입력해주세요!");
+            return "redirect:/tennis/team/teamAdd";
         }
-        return "redirect:/tennis/team/teamAdd";
+        if (team.getLeaderName() == null || team.getLeaderName().isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "팀장 이름을 입력해주세요!");
+            return "redirect:/tennis/team/teamAdd";
+        }
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "이미지 파일을 업로드해주세요!");
+            return "redirect:/tennis/team/teamAdd";
+        }
+        if (teamService.findByName(team.getName())) {
+            redirectAttributes.addFlashAttribute("message", "이미 있는 팀이름입니다!");
+            return "redirect:/tennis/team/teamAdd";
+        }
+        String fileName = file.getOriginalFilename();
+        String fileFormat = fileName.substring(fileName.lastIndexOf("."));
+        String name = UUID.randomUUID() + fileFormat;
+
+        fileUploadService.uploadFile(file, name);
+
+        team.setType("tennis");
+        team.setImgPath("/img/tennis/" + name);
+
+        teamService.insertTeam(team);
+
+        return "redirect:/tennis/team";
     }
 
     @PostMapping("/{id}")

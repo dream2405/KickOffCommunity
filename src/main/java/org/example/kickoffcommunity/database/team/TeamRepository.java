@@ -1,8 +1,7 @@
-package org.example.kickoffcommunity.database;
+package org.example.kickoffcommunity.database.team;
 
 import java.util.Optional;
 
-import org.example.kickoffcommunity.board.entity.TennisEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface TeamRepository extends CrudRepository<Team, Integer> { 
     boolean existsByName(String name);
 
-    Optional<TennisEntity> findByName(String teamName);
+    Optional<Team> findByName(String teamName);
 }
