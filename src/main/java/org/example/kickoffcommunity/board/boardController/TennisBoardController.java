@@ -23,9 +23,7 @@ public class TennisBoardController {
     @Autowired
     private TennisBoardService tennisBoardService;
 
-    @Autowired
-    private TeamService teamService;
-
+    
     @GetMapping("tennis/publish/write")
     public String BoradWrite(Model model) {
 

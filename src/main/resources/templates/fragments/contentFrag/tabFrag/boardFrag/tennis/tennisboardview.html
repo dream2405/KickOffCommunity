@@ -13,21 +13,38 @@
             padding: 20px;
             margin-bottom: 20px;
         }
+        .matching{
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 646px;
+        }
 
         .team-input {
             width: 200px; /* 입력란의 너비 조정 */
+            display: inline-block;
         }
 
-        .form-group{
-            width: 200px;
+        .form-group {
+            display: inline-block;
+            vertical-align: left;
         }
 
         .stadium-img {
             width: 450px; /* 경기장 사진의 너비 조정 */
             height: auto; /* 높이 자동 조정 */
         }
-        .apply-btn{
-            width: 200px;
+
+        .apply-btn {
+            display: inline-block;
+            vertical-align: right;
+            margin-left: 105px;
+
+        }
+
+        .matchheader {
+            font-size: 1.5rem; /* 글씨 크기를 줄입니다 */
         }
     </style>
     <script>
@@ -70,19 +87,22 @@
             </div>
             <div class="col-md-6">
                 <img src="http://www.tennis.co.kr/UploadFile/Front/Cafe/CBY4TQU2QRJ4IJSU2V3E.JPG" class="stadium-img">
+                <p>경기장위치: 단국대학교 테니스장</p>
             </div>
         </div>
         <div class="matching">
-            <h1>경기매칭</h1>
+            <h1 class="matchheader">경기매칭</h1>
+            <hr>
             <form id="matchingForm" action="/tennis/publish/matchingpro" method="post" onsubmit="submitForm(event)">
                 <div class="form-group">
                     <input type="text" id="teamB" name="teamB" class="form-control team-input" placeholder="소속팀입력" required>
+                    <!-- 신청하기 버튼을 인라인으로 추가 -->
+                    <button type="submit" class="btn btn-primary apply-btn">신청하기</button>
                 </div>
                 <div class="form-group">
                     <!-- 템플릿 엔진으로부터 전달받은 tennisId -->
                     <input type="hidden" id="id" name="id" th:value="${tennisarticle.id}">
                 </div>
-                <button type="submit" class="btn btn-primary apply-btn">신청하기</button>
                 <!-- 오류 메시지를 표시할 공간 -->
                 <p id="error-message" style="color: red;"></p>
             </form>

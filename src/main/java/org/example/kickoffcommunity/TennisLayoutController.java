@@ -24,7 +24,7 @@ public class TennisLayoutController {
     private final TeamService teamService;
     private final FileUploadService fileUploadService;
 
-    @Autowired
+    
     public TennisLayoutController(TeamService teamService, FileUploadService fileUploadService) {
         this.teamService = teamService;
         this.fileUploadService = fileUploadService;
