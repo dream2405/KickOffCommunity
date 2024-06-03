@@ -4,8 +4,12 @@ import org.example.kickoffcommunity.database.team.Team;
 import org.example.kickoffcommunity.database.team.TeamService;
 import org.example.kickoffcommunity.storage.FileUploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TeamRanking;
+import org.example.kickoffcommunity.board.entity.TennisEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -53,9 +57,14 @@ public class TennisLayoutController {
     
 
     @GetMapping("/calender")
-    public String calenderLayout(Model model) {
-        model.addAttribute("tennislist", tennisBoardService.tennisBoardList());
-        
+    public String calenderLayout(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
+
+        model.addAttribute("tennislist", tennisPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", tennisPage.getTotalPages());
         model.addAttribute("menu", "calender");
         return "main";
     }
@@ -70,8 +79,14 @@ public class TennisLayoutController {
     }
 
     @GetMapping("/history")
-    public String historyLayout(Model model) {
-        model.addAttribute("tennislist", tennisBoardService.tennisBoardList());
+    public String historyLayout(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
+
+        model.addAttribute("tennislist", tennisPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", tennisPage.getTotalPages());
         model.addAttribute("menu", "history");
         return "main";
     }

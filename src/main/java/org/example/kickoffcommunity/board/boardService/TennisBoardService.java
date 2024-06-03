@@ -12,6 +12,8 @@ import org.example.kickoffcommunity.board.entity.TennisEntity;
 import org.example.kickoffcommunity.database.team.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +24,7 @@ public class TennisBoardService {
     
     @Autowired
     private TeamRepository teamRepository;
+    
 
     public void write(TennisEntity tennisentity){
 
@@ -57,12 +60,12 @@ public class TennisBoardService {
         tennisboardRepository.save(tennisEntity);
         
     }
-    public void updateScore(Integer id, String score) {
-        TennisEntity tennisEntity = tennisboardRepository.findById(id).get();
-        
+    public void updateScore(Integer id, int scoreA, int scoreB) {
+        TennisEntity tennisEntity = tennisboardRepository.findById(id).orElseThrow(() -> new RuntimeException("Tennis entity not found"));
+
+        String score = scoreA + ":" + scoreB;
         tennisEntity.setScore(score);
         tennisboardRepository.save(tennisEntity);
-        
     }
         public List<TeamRanking> calculateTeamRankings() {
         List<TennisEntity> completedMatches = tennisboardRepository.findByScoreIsNotNull();
@@ -98,4 +101,8 @@ public class TennisBoardService {
                 .sorted(Comparator.comparing(TeamRanking::getPoints).reversed())
                 .collect(Collectors.toList());
     }
+    public Page<TennisEntity> tennisBoardList(Pageable pageable) {
+        return tennisboardRepository.findAll(pageable);
+    }
+    
 }

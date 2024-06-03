@@ -1,7 +1,7 @@
-
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
+<span th:fragment="history">
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <title>경기 일정</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,45 +20,53 @@
             background-color: #f2f2f2;
         }
     </style>
-    </head>
-    <span th:fragment="history"> 
-    <body>
-    <div>
-        
-        <div class="container">
-            <h2 class="my-4">테니스 경기 결과</h2>
-            <table id="pubTable" class="table table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>경기일자</th>
-                        <th>시간</th>
-                        <th>팀A</th>
-                        <th>팀B</th>
-                        <th>단식/복식</th>
-                        <th>경기장소</th>
-                        <th>스코어</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="tennisentity : ${tennislist}" th:if="${tennisentity.score != null and tennisentity.teamB != null}">
-                        <td  th:text="${tennisentity.date}"></td>
-                        <td  th:text="${tennisentity.reservedtime} + ' ~ ' + (${tennisentity.reservedtime} + 2)"></td>
-                        <td  th:text="${tennisentity.teamA}"></td>
-                        <td  th:text="${tennisentity.teamB}"></td>
-                        <td  th:text="${tennisentity.sport}"></td>
-                        <td  th:text="${tennisentity.location}"></td>
-                        <td  th:text="${tennisentity.score}"></td>
-                        
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    
-
-    </body>
-    </span>
-    </html>
-    
-    
+</head>
+<body>
+<div class="container">
+    <h2 class="my-4"></h2>
+    <table id="pubTable" class="table table-hover">
+        <thead class="table-light">
+            <tr>
+                <th>경기일자</th>
+                <th>시간</th>
+                <th>팀A</th>
+                <th>팀B</th>
+                <th>단식/복식</th>
+                <th>경기장소</th>
+                <th>스코어</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="tennisentity : ${tennislist}" th:if="${tennisentity.score != null and tennisentity.teamB != null}">
+                <td  th:text="${tennisentity.date}"></td>
+                <td  th:text="${tennisentity.reservedtime} + ' ~ ' + (${tennisentity.reservedtime} + 2)"></td>
+                <td  th:text="${tennisentity.teamA}"></td>
+                <td  th:text="${tennisentity.teamB}"></td>
+                <td  th:text="${tennisentity.sport}"></td>
+                <td  th:text="${tennisentity.location}"></td>
+                <td  th:text="${tennisentity.score}"></td>
+                
+            </tr>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/tennis/history(page=${currentPage - 1})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{/tennis/history(page=${i})}" th:text="${i}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                <a class="page-link" th:href="@{/tennis/history(page=${currentPage + 1})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
+</span>
