@@ -85,8 +85,8 @@ public class TennisBoardController {
     }
 
     @PostMapping("/tennis/calender/score")
-    public String ScoreInsert(@RequestParam("score") String score, @RequestParam("id") Integer id) {
-        tennisBoardService.updateScore(id, score);
+    public String ScoreInsert(@RequestParam("scoreA") int scoreA, @RequestParam("scoreB") int scoreB, @RequestParam("id") Integer id) {
+        tennisBoardService.updateScore(id, scoreA, scoreB);
         return "redirect:/tennis/calender";
     }
 }

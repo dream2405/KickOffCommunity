@@ -19,11 +19,24 @@
             th {
                 background-color: #f2f2f2;
             }
+            .input-group {
+                width: 200px; /* 입력 폼의 너비 설정 */
+                margin-bottom: 0; /* 입력란 사이의 간격을 늘립니다. */
+            }
+            .input-group input {
+                text-align: center;
+            }
+            .input-group-addon {
+                padding: 0;
+                margin: 10px;
+            }
+            
+            
         </style>
     </head>
     <body>
         <div class="container">
-            <h2 class="my-4">테니스 경기 리스트</h2>
+            <h2 class="my-4"></h2>
             <table id="pubTable" class="table table-hover">
                 <thead class="table-light">
                     <tr>
@@ -33,7 +46,7 @@
                         <th>팀B</th>
                         <th>단식/복식</th>
                         <th>경기장소</th>
-                        <th></th>
+                        <th>결과 입력</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,15 +61,35 @@
                             <form action="/tennis/calender/score" method="post" class="d-flex">
                                 <input type="hidden" name="id" th:value="${tennisentity.id}" />
                                 <div class="input-group">
-                                    <input type="text" id="score" name="score" class="form-control" placeholder="Score" />
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <input type="number" id="scoreA" name="scoreA" class="form-control" placeholder="Team A" required />
+                                    <span class="input-group-addon">:</span>
+                                    <input type="number" id="scoreB" name="scoreB" class="form-control" placeholder="Team B" required />
                                 </div>
+                                <button type="submit" class="btn btn-primary ">Submit</button>
                             </form>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/tennis/calender(page=${currentPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{/tennis/calender(page=${i})}" th:text="${i}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/tennis/calender(page=${currentPage + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </body>
-    </html>
     
+    </html>
+</span>
