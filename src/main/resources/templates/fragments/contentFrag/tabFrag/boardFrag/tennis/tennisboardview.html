@@ -33,7 +33,7 @@
 
         .stadium-img {
             width: 450px; /* 경기장 사진의 너비 조정 */
-            height: auto; /* 높이 자동 조정 */
+            height: 280px; /* 높이 자동 조정 */
         }
 
         .apply-btn {
@@ -47,6 +47,16 @@
             font-size: 1.5rem; /* 글씨 크기를 줄입니다 */
         }
     </style>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d296b7b35d78b03decb43f6ae0188cd9"></script>
+    <script>
+		var container = document.getElementById('map');
+		var options = {
+			center: new kakao.maps.LatLng(33.450701, 126.570667),
+			level: 3
+		};
+
+		var map = new kakao.maps.Map(container, options);
+	</script>
     <script>
         // 폼 제출을 처리하는 JavaScript 함수
         function submitForm(event) {
@@ -80,14 +90,15 @@
                     <h1>경기정보</h1>
                     <hr>
                     <p>상대팀: <span th:text="${tennisarticle.teamA}"></span></p>
+                    <p>경기장위치: <span th:text="${tennisarticle.location}"></span></p>
                     <p>경기일자: <span th:text="${tennisarticle.date}"></span></p>
                     <p>시작시간: <span th:text="${tennisarticle.reservedtime}"></span>시</p>
                     <p>경기방식: <span th:text="${tennisarticle.sport}"></span> </p>
                 </div>
             </div>
             <div class="col-md-6">
-                <img src="http://www.tennis.co.kr/UploadFile/Front/Cafe/CBY4TQU2QRJ4IJSU2V3E.JPG" class="stadium-img">
-                <p>경기장위치: 단국대학교 테니스장</p>
+                <a href="https://map.kakao.com/?urlX=528812&urlY=1061524&urlLevel=1&map_type=TYPE_SKYVIEW&map_hybrid=true" target="_blank"><img width="504" height="310" src="https://map2.daum.net/map/skyviewmapservice?FORMAT=PNG&RDR=HybridRender&SCALE=0.625&MX=528812&MY=1061524&S=0&IW=504&IH=310&LANG=0&COORDSTM=WCONGNAMUL&logo=kakao_logo" style="border:1px solid #ccc"></a><div class="hide" style="overflow:hidden;padding:7px 11px;border:1px solid #dfdfdf;border-color:rgba(0,0,0,.1);border-radius:0 0 2px 2px;background-color:#f9f9f9;width:482px;"><strong style="float: left;"><img src="//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/logo_kakaomap.png" width="72" height="16" alt="카카오맵"></strong><div style="float: right;position:relative"><a style="font-size:12px;text-decoration:none;float:left;height:15px;padding-top:1px;line-height:15px;color:#000" target="_blank" href="https://map.kakao.com/?urlX=528812&urlY=1061524&urlLevel=1&map_type=TYPE_SKYVIEW&map_hybrid=true">지도 크게 보기</a></div></div>
+                <p>경기장위치: 단국대학교 테니스장(왼쪽부터 A, B구장)</p>
             </div>
         </div>
         <div class="matching">
@@ -107,6 +118,7 @@
                 <p id="error-message" style="color: red;"></p>
             </form>
         </div>
+        <div id="map" style="width:500px;height:400px;"></div>
     </div>
 </body>
 </html>

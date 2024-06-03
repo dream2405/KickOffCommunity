@@ -35,6 +35,10 @@ function createCalendar(data, year, month) {
     const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
     // 현재 달의 첫 날이 포함된 주의 첫 날
     const firstDayOfWeek = firstDayOfMonth.getDay();
+
+    // 현재 선택된 구장
+    const location = document.getElementById('location').value;
+    
     // 캘린더에 날짜 추가
     for (let i = 0; i < firstDayOfWeek; i++) {
         const dayElement = document.createElement('div');
@@ -45,7 +49,7 @@ function createCalendar(data, year, month) {
     for (let i = 1; i <= lastDayOfMonth; i++) {
         const date = new Date(year, month, i);
         const dateString = date.toISOString().split('T')[0];
-        const reservedData = data.filter(item => item.date === dateString);
+        const reservedData = data.filter(item => item.date === dateString && item.location === location);
         const dayElement = document.createElement('div');
         dayElement.classList.add('day');
         dayElement.textContent = `${month + 1}/${i}`; // 월/일 형태로 표시
