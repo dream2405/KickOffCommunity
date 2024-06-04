@@ -39,7 +39,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="tennisentity : ${tennislist}" th:if="${tennisentity.score == null and tennisentity.teamB != null}">
+                <tr th:each="tennisentity : ${tennislist}"  th:if="${tennisentity.score == null and tennisentity.teamB != null}">
                     <td th:text="${tennisentity.date}"></td>
                     <td th:text="${tennisentity.reservedtime} + ' ~ ' + (${tennisentity.reservedtime} + 2)"></td>
                     <td th:text="${tennisentity.teamA}"></td>

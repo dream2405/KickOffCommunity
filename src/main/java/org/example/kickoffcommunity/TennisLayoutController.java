@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,13 +63,22 @@ public class TennisLayoutController {
         int pageSize = 20;
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "date"));
         Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
-
-        model.addAttribute("tennislist", tennisPage.getContent());
+    
+        // 모든 테니스 경기 일정 가져오기
+        List<TennisEntity> tennisList = new ArrayList<>(tennisPage.getContent());
+    
+        // date와 reservedtime을 기준으로 정렬
+        tennisList.sort(Comparator.comparing(TennisEntity::getDate)
+                                  .thenComparing(TennisEntity::getReservedtime));
+    
+        // 모델에 정렬된 테니스 경기 일정 추가
+        model.addAttribute("tennislist", tennisList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", tennisPage.getTotalPages());
         model.addAttribute("menu", "calender");
         return "main";
     }
+    
    
     // 테니스 탭의 팀순위 버튼 클릭시 컨텐츠 model 제어
      @GetMapping("/ranking")
@@ -78,19 +88,28 @@ public class TennisLayoutController {
         model.addAttribute("menu", "ranking");
         return "main";
     }
-
     @GetMapping("/history")
     public String historyLayout(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-        int pageSize = 20;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "date"));
+        int pageSize = 15;
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "date", "reservedtime"));
         Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
-
-        model.addAttribute("tennislist", tennisPage.getContent());
+    
+        // 모든 테니스 경기 일정 가져오기
+        List<TennisEntity> tennisList = new ArrayList<>(tennisPage.getContent());
+    
+        // date와 reservedtime을 기준으로 내림차순 정렬
+        tennisList.sort(Comparator.comparing(TennisEntity::getDate, Comparator.reverseOrder())
+                                  .thenComparing(TennisEntity::getReservedtime, Comparator.reverseOrder()));
+    
+        // 모델에 정렬된 테니스 경기 일정 추가
+        model.addAttribute("tennislist", tennisList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", tennisPage.getTotalPages());
         model.addAttribute("menu", "history");
         return "main";
     }
+    
+    
     
     @GetMapping("/publish")
     public String publishLayout(Model model) {
