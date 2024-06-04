@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TeamRanking;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
@@ -58,8 +59,8 @@ public class TennisLayoutController {
 
     @GetMapping("/calender")
     public String calenderLayout(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-        int pageSize = 10;
-        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        int pageSize = 20;
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "date"));
         Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
 
         model.addAttribute("tennislist", tennisPage.getContent());
@@ -80,8 +81,8 @@ public class TennisLayoutController {
 
     @GetMapping("/history")
     public String historyLayout(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-        int pageSize = 10;
-        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        int pageSize = 20;
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "date"));
         Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
 
         model.addAttribute("tennislist", tennisPage.getContent());
