@@ -1,9 +1,9 @@
 package org.example.kickoffcommunity;
 
+import lombok.RequiredArgsConstructor;
 import org.example.kickoffcommunity.database.team.Team;
 import org.example.kickoffcommunity.database.team.TeamService;
 import org.example.kickoffcommunity.storage.FileUploadService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,23 +24,14 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/tennis")
+@RequiredArgsConstructor
 public class TennisLayoutController {
     // 테스트용 목업 데이터 - 추후 DB로 교체 예정
     private List<MockUpTeamData> datas = new ArrayList<>();
+
     private final TeamService teamService;
     private final FileUploadService fileUploadService;
-
-    
-    public TennisLayoutController(TeamService teamService, FileUploadService fileUploadService) {
-        this.teamService = teamService;
-        this.fileUploadService = fileUploadService;
-    }
-
-
-    @Autowired
-    private TennisBoardService tennisBoardService;
-    
-
+    private final TennisBoardService tennisBoardService;
 
     // 테니스탭의 초기 페이지는 팀
     @GetMapping()
@@ -121,14 +112,6 @@ public class TennisLayoutController {
         return "main";
     }
 
-
-    @RequestMapping("/team/{tab}/{id}")
-    public String tabLayout(@PathVariable String tab, @PathVariable Integer id, Model model) {
-        model.addAttribute("team", teamService.findTeam(id).get());
-
-        return "teamDesc";
-    }
-
     @GetMapping("/team/teamAdd")
     public String teamAdd(Model model) {
         model.addAttribute("sportsType", "tennis");
@@ -167,20 +150,5 @@ public class TennisLayoutController {
         teamService.insertTeam(team);
 
         return "redirect:/tennis/team";
-    }
-
-    @PostMapping("/{id}")
-    public String updateTeam(@PathVariable Integer id, @RequestParam("file") MultipartFile file) {
-        Team team = teamService.findTeam(id).get();
-        String fileName = team.getImgPath().substring(file.getOriginalFilename().lastIndexOf("/") + 1);
-        fileUploadService.deleteFile(fileName);
-
-        String newFileName = file.getOriginalFilename();
-        String fileFormat = newFileName.substring(newFileName.lastIndexOf("."));
-        String name = UUID.randomUUID() + fileFormat;
-        fileUploadService.uploadFile(file, name);
-        teamService.updateTeamImgPath(id, "/img/tennis/" + name);
-
-        return "redirect:/tennis/team/desc/" + id;
     }
 }
