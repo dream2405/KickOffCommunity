@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,7 +7,7 @@
 <body>
 <span th:fragment="team">
     <div class="container border">
-        <div class="row row-cols-4 row-cols-md-5 mb-3 text-center"> <!-- gap 클래스 사용 -->
+        <div class="row row-cols-4 row-cols-md-6 mb-3 text-center"> <!-- gap 클래스 사용 -->
             <div class="col" th:each="teamData: ${teamDatas}">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <div class="image-container">
@@ -15,7 +15,7 @@
                         <img th:src="@{{filePath}(filePath=${teamData.imgPath})}" class="card-img-top" alt="..." style="object-fit: contain">
                     </a>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body border-top">
                         <h5 class="card-title" th:text="${teamData.name}"></h5>
                     </div>
                 </div>
@@ -23,9 +23,9 @@
             <div class="col">
                 <div class="card mb-4 rounded-3 shadow-sm">
                     <a th:href="@{/tennis/team/teamAdd}">
-                        <img src="/img/plus.png" class="card-img-top" alt="...">
+                        <img src="/img/plus.png" class="card-img-top" alt="..." style="padding: 30%">
                     </a>
-                    <div class="card-body">
+                    <div class="card-body border-top">
                         <h5 class="card-title">팀 추가</h5>
                     </div>
                 </div>

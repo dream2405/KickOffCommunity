@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>team page</title>
@@ -16,6 +16,7 @@
 <br>
 <div class="container">
     <div class="row g-3">
+        <!-- 팀 카드 -->
         <div class="col-4 align-items-stretch">
             <div class="card shadow-sm">
                 <a data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -34,6 +35,7 @@
                 </div>
             </div>
         </div>
+        <!-- 팀 소개글 카드 -->
         <div class="col-8 d-flex align-items-stretch">
             <div class="card shadow-sm" style="width: 100%">
                 <div class="card-header">
@@ -41,18 +43,30 @@
                         <div class="col-2">
                             소개글
                         </div>
-                        <div class="col-1 d-flex justify-content-end">
-                            <a href="#" style="text-decoration: none; color: inherit; display: contents">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                                </svg>
-                            </a>
+                        <div class="col-1 d-flex justify-content-end" th:object="${team}">
+                            <form th:action="@{/{type}/team/desc/{id}/is-edit(type=${team.type},id=${team.id})}" th:object="${editForm}" method="post">
+                                <button type="submit" th:attr="name='str', value='edit'" style="text-decoration: none; color: inherit; display: contents">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                                    </svg>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <p class="card-text content" th:text="${team.desc}">소개글 없음</p>
+                    <!-- 팀 소개글 -->
+                    <p class="card-text content" th:text="${team.desc}" th:if="${isVisible}">소개글 없음</p>
+
+                    <!-- 팀 소개글 수정 모드 -->
+                    <form th:action="@{/{type}/team/desc/{id}/edit-desc(type=${team.type},id=${team.id})}" th:if="${!isVisible}" th:object="${editInput}" method="post">
+                        <p style="line-height: 0.5em" class="text-end" >
+                            <textarea class="form-control" rows="6" th:field="*{inputTxt}"></textarea>
+                            <br>
+                            <button class="btn btn-secondary" type="submit">수정</button>
+                        </p>
+                    </form>
                 </div>
             </div>
         </div>
@@ -68,13 +82,17 @@
                 </ul>
             </div>
         </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-outline-dark" role="button" th:href="${redirectURL}">뒤로가기</a>
+            <button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#teamDelModal">팀삭제</button>
+        </div>
     </div>
 </div>
-<!-- Modal -->
+<!-- 이미지 변경 팝업 -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/{type}/{id}(type=${team.type},id=${team.id})}" th:object="${team}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/{type}/team/{id}(type=${team.type},id=${team.id})}" th:object="${team}" method="post" enctype="multipart/form-data">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">이미지 변경</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -90,7 +108,26 @@
         </div>
     </div>
 </div>
-
+<!-- 팀삭제 확인 팝업 -->
+<div class="modal fade" id="teamDelModal" tabindex="-1" aria-labelledby="teamDelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="teamDelModalLabel">팀 삭제 확인</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                정말로 팀을 삭제하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <form th:action="@{/{type}/team/desc/{id}/delete(type=${team.type},id=${team.id})}" th:object="${team}" method="post">
+                    <button type="submit" class="btn btn-primary">확인</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <br>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">

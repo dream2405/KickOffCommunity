@@ -6,7 +6,7 @@ import java.util.Optional;
 
 @Service
 public class TeamService {
-    private TeamRepository teamRepository;
+    private final TeamRepository teamRepository;
 
     
     public TeamService(TeamRepository teamRepository) {
@@ -61,5 +61,13 @@ public class TeamService {
     public boolean teamExists(String teamName) {
         return teamRepository.existsByName(teamName);
     }
-    
+
+    public void updateTeamDesc(Integer id, String desc) {
+        var optionalTeam = teamRepository.findById(id);
+        if (optionalTeam.isPresent()) {
+            var team = optionalTeam.get();
+            team.setDesc(desc);
+            teamRepository.save(team);
+        }
+    }
 }
