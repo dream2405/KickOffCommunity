@@ -4,31 +4,59 @@
     <meta charset="UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
         
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    
+   
 </head>
 <span th:fragment="publish">
 <body>
     <div class="container">
-    <h2 class="my-4">테니스 경기매칭</h2>
-    <a href="/tennis/publish/write" class="btn btn-primary mb-4">모집하기</a>
-    <a href="/tennis/publish/list" class="btn btn-primary mb-4">경기찾기</a>
-    </table>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div></div> <!-- Empty div to take up space on the left -->
+            <a href="/tennis/publish/write" class="btn btn-primary" id="wbutton">모집하기</a>
+        </div>
+        <div class="container">
+            <table id="pubTable" class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>팀이름</th>
+                        <th>경기일자</th>
+                        <th>시간</th>
+                        <th>경기장소</th>
+                        <th>단식/복식</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="tennisentity : ${tennislist}" th:if="${tennisentity.teamB == null}">
+                        <td th:text="${tennisentity.teamA}"></td>
+                        <td th:text="${tennisentity.date}"></td>
+                        <td th:text="${tennisentity.reservedtime} + ' ~ ' + (${tennisentity.reservedtime} + 2)"></td>
+                        <td th:text="${tennisentity.location}"></td>
+                        <td th:text="${tennisentity.sport}"></td>
+                        <td><a th:href="@{'/tennis/publish/view?id=' + ${tennisentity.id}}" class="btn btn-primary mb-4">참가하기</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation" class="d-flex justify-content-center">
+                <ul class="pagination">
+                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                        <a class="page-link" th:href="@{/tennis/publish(page=${currentPage - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link" th:href="@{/tennis/publish(page=${i})}" th:text="${i}">1</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/tennis/publish(page=${currentPage + 1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 </body>
 </span>

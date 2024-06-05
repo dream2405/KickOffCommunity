@@ -102,16 +102,6 @@ public class TennisLayoutController {
     
     
     
-    @GetMapping("/publish")
-    public String publishLayout(Model model) {
-        model.addAttribute("menu", "publish");
-        model.addAttribute("pubExample", datas);
-
-        
-
-        return "main";
-    }
-
     @GetMapping("/team/teamAdd")
     public String teamAdd(Model model) {
         model.addAttribute("sportsType", "tennis");

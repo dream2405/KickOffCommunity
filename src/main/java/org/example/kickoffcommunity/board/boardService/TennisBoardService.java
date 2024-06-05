@@ -11,7 +11,6 @@ import org.example.kickoffcommunity.board.entity.TeamRanking;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
 import org.example.kickoffcommunity.database.team.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

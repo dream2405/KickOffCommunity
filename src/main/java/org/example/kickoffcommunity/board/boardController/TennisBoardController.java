@@ -5,8 +5,11 @@ import java.util.List;
 
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
-import org.example.kickoffcommunity.database.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,18 +50,24 @@ public class TennisBoardController {
             return "tennis/publish"; // 에러 메시지를 표시할 페이지로 리다이렉트합니다.
         }
 
-    return "redirect:/tennis/publish/list";
-}
-
-
-    @GetMapping("tennis/publish/list")
-    public String BoardList(Model model) {
-
-        model.addAttribute("tennislist", tennisBoardService.tennisBoardList());
-
-        return "fragments/contentFrag/tabFrag/boardFrag/tennis/tennisboardlist";
+        return "redirect:/tennis/publish";
     }
-    
+
+
+    @GetMapping("tennis/publish")
+    public String BoardList(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+        int pageSize = 15;
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "date"));
+        Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
+
+        model.addAttribute("tennislist", tennisPage.getContent());  // 페이징된 결과 리스트를 모델에 추가
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", tennisPage.getTotalPages());
+        model.addAttribute("menu", "publish");
+        return "main";
+    }
+
+
     @GetMapping("tennis/publish/view")  // localhost:8080/tennis/publish/view?id=1
     public String BoardView(Model model, Integer id) {
 
@@ -69,6 +78,7 @@ public class TennisBoardController {
     
         
     
+
     @GetMapping("/api/checkTeam") //team 테이블에 팀이 존재하는지 확인
     @ResponseBody
     public ResponseEntity<?> checkTeam(@RequestParam String teamName) {
