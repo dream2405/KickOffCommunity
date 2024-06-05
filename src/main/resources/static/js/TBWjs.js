@@ -39,6 +39,9 @@ function createCalendar(data, year, month) {
     // 현재 선택된 구장
     const location = document.getElementById('location').value;
     
+    // 기존 선택된 날짜를 추적하는 변수
+    let selectedDayElement = null;
+    
     // 캘린더에 날짜 추가
     for (let i = 0; i < firstDayOfWeek; i++) {
         const dayElement = document.createElement('div');
@@ -60,12 +63,22 @@ function createCalendar(data, year, month) {
                 dayElement.classList.add('clickable');
                 dayElement.addEventListener('click', () => {
                     displayReservedTime(reservedData);
+                    if (selectedDayElement) {
+                        selectedDayElement.style.backgroundColor = ''; // 이전에 선택된 날짜의 색상 초기화
+                    }
+                    dayElement.style.backgroundColor = 'darkgreen'; // 선택된 날짜의 색상 변경
+                    selectedDayElement = dayElement; // 선택된 날짜 업데이트
                 });
             } else {
                 dayElement.classList.add('available');
                 dayElement.classList.add('clickable');
                 dayElement.addEventListener('click', () => {
                     displayAvailableTime();
+                    if (selectedDayElement) {
+                        selectedDayElement.style.backgroundColor = ''; // 이전에 선택된 날짜의 색상 초기화
+                    }
+                    dayElement.style.backgroundColor = 'darkgreen'; // 선택된 날짜의 색상 변경
+                    selectedDayElement = dayElement; // 선택된 날짜 업데이트
                 });
             }
         } else {
@@ -157,16 +170,40 @@ function updateCalendar() {
         .catch(error => console.error('Error fetching data:', error));
 }
 
-//모든 값을 입력해야 글 생성 가능
-document.getElementById("tennisForm").addEventListener("submit", function(event) {
+function validateForm(event) {
+    event.preventDefault();
+
     const dateInput = document.querySelector('input[name="date"]');
     const reservedTimeInput = document.querySelector('select[name="reservedtime"]');
-    const sportInput = document.querySelector('input[name="sport"]');
+    const locationInput = document.querySelector('select[name="location"]');
+    
     const maintextInput = document.querySelector('textarea[name="maintext"]');
     const teamAInput = document.querySelector('input[name="teamA"]'); //teamB는 참여하기에서 추가
 
-    if (!dateInput.value || !reservedTimeInput.value || !sportInput.value  || !maintextInput.value || !teamAInput.value) {
+    const date = dateInput.value;
+    const reservedTime = reservedTimeInput.value;
+    const location = locationInput.value;
+    const maintext = maintextInput.value;
+    const teamA = teamAInput.value;
+
+    if (!date || !reservedTime || !location|| !maintext || !teamA) {
         alert("모든 내용을 입력해주세요.");
-        event.preventDefault(); // 페이지 이동을 막음
+        return false;
     }
-});
+
+    fetch('/api/tennis')
+        .then(response => response.json())
+        .then(data => {
+            const isAlreadyReserved = data.some(item => item.date === date && item.reservedtime === parseInt(reservedTime) && item.location === location);
+            if (isAlreadyReserved) {
+                alert('이미 예약된 시간입니다.');
+            } else {
+                document.getElementById("tennisForm").submit();
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
+        });
+    return false; // 이벤트 핸들러에서 항상 false를 반환하여 폼이 제출되지 않도록 합니다.
+}

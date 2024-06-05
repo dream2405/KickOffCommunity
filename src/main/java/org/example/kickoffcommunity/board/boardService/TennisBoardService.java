@@ -26,17 +26,20 @@ public class TennisBoardService {
     private TeamRepository teamRepository;
     
 
-    public void write(TennisEntity tennisentity){
-
-        boolean exists = tennisboardRepository.existsByLocationAndDateAndReservedtime(tennisentity.getLocation(), tennisentity.getDate(), tennisentity.getReservedtime());
-
-        if(!exists){
-            tennisboardRepository.save(tennisentity);
-            
-        }else{
-            throw new DataIntegrityViolationException("이미 해당하는 예약이 존재합니다.");
+    public void write(TennisEntity tennisentity) throws Exception {
+        boolean exists = tennisboardRepository.existsByLocationAndDateAndReservedtime(
+            tennisentity.getLocation(), 
+            tennisentity.getDate(), 
+            tennisentity.getReservedtime()
+        );
+    
+        if (exists) {
+            throw new Exception("이미 예약된 시간입니다."); // 중복 예약이 있을 경우 예외를 발생시킵니다.
         }
+    
+        tennisboardRepository.save(tennisentity);
     }
+    
 
 
     public List<TennisEntity> tennisBoardList(){

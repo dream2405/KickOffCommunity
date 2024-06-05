@@ -39,11 +39,17 @@ public class TennisBoardController {
     }
     
     @PostMapping("tennis/publish/writepro")
-    public String BoardWritePro(TennisEntity tennisentity){
-        tennisBoardService.write(tennisentity);
-        
-        return "redirect:/tennis/publish/list";
-    }
+    public String BoardWritePro(TennisEntity tennisentity, Model model) {
+        try {
+            tennisBoardService.write(tennisentity);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "tennis/publish"; // 에러 메시지를 표시할 페이지로 리다이렉트합니다.
+        }
+
+    return "redirect:/tennis/publish/list";
+}
+
 
     @GetMapping("tennis/publish/list")
     public String BoardList(Model model) {

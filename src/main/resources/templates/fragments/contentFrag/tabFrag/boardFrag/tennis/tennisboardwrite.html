@@ -6,7 +6,6 @@
     <title>게시물 작성폼</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link th:href="@{/css/TBWstyle.css}" rel="stylesheet">
-    
 </head>
 <body>
     <!-- 부모 요소로 감싸기 -->
@@ -15,7 +14,7 @@
             <a href="/tennis/publish" class="btn btn-secondary">뒤로가기</a>
         </div>
         <div class="layout">
-            <form id="tennisForm" action="/tennis/publish/writepro" method="post" onsubmit="return validateForm()">
+            <form id="tennisForm" action="/tennis/publish/writepro" method="post" onsubmit="return validateForm(event)">
                 <div class="left">
                     <p class="fw-semibold">테니스 구장별 예약 현황</p>
                     <hr>
@@ -39,9 +38,9 @@
                 <div class="right">
                     <p class="fw-semibold">테니스 예약 날짜/시간 선택</p>
                     <hr>
-                    <input name="date" type="date" placeholder="경기 일자">
+                    <input name="date" type="date" placeholder="경기 일자" required>
                     <div id="reservedTimes"></div>
-                    <select name="reservedtime" id="reservedtime">
+                    <select name="reservedtime" id="reservedtime" required>
                         <option value="7">7시</option>
                         <option value="9">9시</option>
                         <option value="11">11시</option>
@@ -51,12 +50,12 @@
                         <option value="19">19시</option>
                         <option value="21">21시</option>
                     </select>
-                    <select name="sport" id="sport" placeholder="종목명">
+                    <select name="sport" id="sport" required>
                         <option value="단식">단식</option>
                         <option value="복식">복식</option>
                     </select>
-                    <input name="teamA" type="text" placeholder="소속팀이름">
-                    <textarea name="maintext" placeholder="내용을 입력하세요"></textarea>
+                    <input name="teamA" type="text" placeholder="소속팀이름" required>
+                    <textarea name="maintext" placeholder="내용을 입력하세요" required></textarea>
                     <button type="submit" class="btn btn-primary">작성</button>
                 </div>
             </form>
