@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TeamRanking;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -35,7 +37,7 @@ public class TennisLayoutController {
 
     // 테니스탭의 초기 페이지는 팀
     @GetMapping()
-    public String mainLayout() {
+    public String mainLayout(Authentication authentication) {
         return "redirect:/tennis/team";
     }
 
@@ -140,5 +142,11 @@ public class TennisLayoutController {
         teamService.insertTeam(team);
 
         return "redirect:/tennis/team";
+    }
+    
+    @GetMapping("/api/teams")
+    @ResponseBody
+    public Iterable<Team> getAllTeams() {
+        return teamService.findAllTeams();
     }
 }

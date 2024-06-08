@@ -198,7 +198,21 @@ function validateForm(event) {
             if (isAlreadyReserved) {
                 alert('이미 예약된 시간입니다.');
             } else {
-                document.getElementById("tennisForm").submit();
+                // 팀명이 존재하는지 확인하는 로직 추가
+                fetch('/tennis/api/teams')
+                    .then(response => response.json())
+                    .then(teamDatas => {
+                        const teamExists = teamDatas.some(team => team.name === teamA);
+                        if (teamExists) {
+                            document.getElementById("tennisForm").submit();
+                        } else {
+                            alert('올바른 팀명을 입력하세요.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching team data:', error);
+                        alert('오류가 발생했습니다. 나중에 다시 시도해주세요.');
+                    });
             }
         })
         .catch(error => {

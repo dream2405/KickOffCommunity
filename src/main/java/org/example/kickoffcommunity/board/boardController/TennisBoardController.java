@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
+import org.example.kickoffcommunity.database.team.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class TennisBoardController {
     @Autowired
     private TennisBoardService tennisBoardService;
-
+    @Autowired
+    private TeamService teamService;
     
     @GetMapping("tennis/publish/write")
     public String BoradWrite(Model model) {
@@ -61,6 +63,7 @@ public class TennisBoardController {
         Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
 
         model.addAttribute("tennislist", tennisPage.getContent());  // 페이징된 결과 리스트를 모델에 추가
+        model.addAttribute("teamDatas", teamService.findAllTeams());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", tennisPage.getTotalPages());
         model.addAttribute("menu", "publish");
@@ -72,7 +75,7 @@ public class TennisBoardController {
     public String BoardView(Model model, Integer id) {
 
         model.addAttribute("tennisarticle", tennisBoardService.boardView(id));
-
+        model.addAttribute("teamDatas", teamService.findAllTeams());
         return "fragments/contentFrag/tabFrag/boardFrag/tennis/tennisboardview";
     }
     
@@ -90,7 +93,7 @@ public class TennisBoardController {
     public String BoardMatchingPro(TennisEntity tennisarticle,@RequestParam("teamB") String teamB, @RequestParam("id") Integer id) {
         
         tennisBoardService.updateTeamB(id, teamB);
-        return "redirect:/tennis/publish/list";
+        return "redirect:/tennis/publish";
     }
  
     @GetMapping("/enter-score/{id}")

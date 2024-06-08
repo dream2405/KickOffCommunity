@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>회원가입</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container-centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px;
+            margin: auto;
+            border: 1px solid #ced4da;
+            border-radius: 0.3rem;
+            background-color: #ffffff;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        .custom-alert {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="mb-3">
+        <a href="/tennis" class="btn btn-secondary">뒤로가기</a>
+    </div>
+    <div class="container container-centered">
+        
+        <div class="form-container">
+            <div class="my-3 border-bottom">
+                <div></div>
+                <div>
+                    <h4>회원가입</h4>
+                </div>
+            </div>
+            <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+                <!-- 전역 에러 메시지 표시 -->
+                <div th:if="${#fields.hasGlobalErrors()}" class="alert custom-alert" role="alert">
+                    <ul>
+                        <li th:each="err : ${#fields.globalErrors()}" th:text="${err}"></li>
+                    </ul>
+                </div>
+                <!-- 사용자ID 필드와 에러 메시지 표시 -->
+                <div class="mb-3">
+                    <label for="username" class="form-label">사용자ID</label>
+                    <input type="text" id="username" th:field="*{username}" class="form-control">
+                    <div th:if="${#fields.hasErrors('username')}" class="text-danger">
+                        <p th:each="err : ${#fields.errors('username')}" th:text="${err}"></p>
+                    </div>
+                </div>
+                <!-- 비밀번호 필드와 에러 메시지 표시 -->
+                <div class="mb-3">
+                    <label for="password1" class="form-label">비밀번호</label>
+                    <input type="password" id="password1" th:field="*{password1}" class="form-control">
+                    <div th:if="${#fields.hasErrors('password1')}" class="text-danger">
+                        <p th:each="err : ${#fields.errors('password1')}" th:text="${err}"></p>
+                    </div>
+                </div>
+                <!-- 비밀번호 확인 필드와 에러 메시지 표시 -->
+                <div class="mb-3">
+                    <label for="password2" class="form-label">비밀번호 확인</label>
+                    <input type="password" id="password2" th:field="*{password2}" class="form-control">
+                    <div th:if="${#fields.hasErrors('password2')}" class="text-danger">
+                        <p th:each="err : ${#fields.errors('password2')}" th:text="${err}"></p>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">회원가입</button>
+            </form>
+        </div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

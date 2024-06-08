@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container-centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 15px;
+            margin: auto;
+            border: 1px solid #ced4da;
+            border-radius: 0.3rem;
+            background-color: #ffffff;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        .custom-alert {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .signup-link {
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container container-centered">
+        <div class="form-container">
+            <form th:action="@{/user/login}" method="post">
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger custom-alert">
+                        사용자ID 또는 비밀번호를 확인해 주세요.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">사용자ID</label>
+                    <input type="text" name="username" id="username" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">비밀번호</label>
+                    <input type="password" name="password" id="password" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">로그인</button>
+                <a th:href="@{/user/signup}" class="btn btn-link signup-link">회원가입</a>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
