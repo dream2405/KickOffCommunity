@@ -29,6 +29,12 @@ public class SiteUser {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(unique = true, nullable = false)
+    private String studentnum;
+
+    @Column(nullable = false)
+    private String name;
+
     @Column(nullable = false)
     private String password;
 

@@ -55,6 +55,22 @@
                         <p th:each="err : ${#fields.errors('username')}" th:text="${err}"></p>
                     </div>
                 </div>
+                <!-- 사용자 학번 필드와 에러 메시지 표시 -->
+                <div class="mb-3">
+                    <label for="studentnum" class="form-label">학번</label>
+                    <input type="text" id="studentnum" th:field="*{studentnum}" class="form-control">
+                    <div th:if="${#fields.hasErrors('studentnum')}" class="text-danger">
+                        <p th:each="err : ${#fields.errors('studentnum')}" th:text="${err}"></p>
+                    </div>
+                </div>
+                <!-- 사용자 이름 필드와 에러 메시지 표시 -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">이름</label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control">
+                    <div th:if="${#fields.hasErrors('name')}" class="text-danger">
+                        <p th:each="err : ${#fields.errors('name')}" th:text="${err}"></p>
+                    </div>
+                </div>
                 <!-- 비밀번호 필드와 에러 메시지 표시 -->
                 <div class="mb-3">
                     <label for="password1" class="form-label">비밀번호</label>
