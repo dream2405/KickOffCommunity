@@ -1,5 +1,6 @@
 package org.example.kickoffcommunity.board.boardService;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -106,5 +107,8 @@ public class TennisBoardService {
     public Page<TennisEntity> tennisBoardList(Pageable pageable) {
         return tennisboardRepository.findAll(pageable);
     }
+    public Page<TennisEntity> findMatchesByDate(LocalDate date, Pageable pageable) {
+    return tennisboardRepository.findAllByDate(date, pageable);
+}
     
 }
