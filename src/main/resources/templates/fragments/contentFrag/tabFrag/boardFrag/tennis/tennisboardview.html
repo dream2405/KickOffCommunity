@@ -106,6 +106,7 @@
             <h1 class="matchheader">경기매칭</h1>
             <hr>
             <form id="matchingForm" action="/tennis/publish/matchingpro" method="post" onsubmit="submitForm(event)">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                 <div class="form-group">
                     <input type="text" id="teamB" name="teamB" class="form-control team-input" placeholder="소속팀입력" required>
                     <!-- 신청하기 버튼을 인라인으로 추가 -->

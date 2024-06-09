@@ -15,6 +15,7 @@
         </div>
         <div class="layout">
             <form id="tennisForm" action="/tennis/publish/writepro" method="post" onsubmit="return validateForm(event)">
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
                 <div class="left">
                     <p class="fw-semibold">테니스 구장별 예약 현황</p>
                     <hr>
