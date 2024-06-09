@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TeamRanking;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -82,25 +83,34 @@ public class TennisLayoutController {
         return "main";
     }
     @GetMapping("/history")
-    public String historyLayout(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-        int pageSize = 15;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "date", "reservedtime"));
-        Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
-    
-        // 모든 테니스 경기 일정 가져오기
-        List<TennisEntity> tennisList = new ArrayList<>(tennisPage.getContent());
-    
-        // date와 reservedtime을 기준으로 내림차순 정렬
-        tennisList.sort(Comparator.comparing(TennisEntity::getDate, Comparator.reverseOrder())
-                                  .thenComparing(TennisEntity::getReservedtime, Comparator.reverseOrder()));
-    
-        // 모델에 정렬된 테니스 경기 일정 추가
-        model.addAttribute("tennislist", tennisList);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", tennisPage.getTotalPages());
-        model.addAttribute("menu", "history");
-        return "main";
+public String historyLayout(Model model, 
+                            @RequestParam(value = "page", defaultValue = "1") int page,
+                            @RequestParam(value = "date", required = false) 
+                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+    int pageSize = 15;
+    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "date", "reservedtime"));
+    Page<TennisEntity> tennisPage;
+
+    if (date != null) {
+        tennisPage = tennisBoardService.findMatchesByDate(date, pageable);
+    } else {
+        tennisPage = tennisBoardService.tennisBoardList(pageable);
     }
+
+    List<TennisEntity> tennisList = new ArrayList<>(tennisPage.getContent());
+
+    tennisList.sort(Comparator.comparing(TennisEntity::getDate, Comparator.reverseOrder())
+                              .thenComparing(TennisEntity::getReservedtime, Comparator.reverseOrder()));
+
+    model.addAttribute("tennislist", tennisList);
+    model.addAttribute("currentPage", page);
+    model.addAttribute("totalPages", tennisPage.getTotalPages());
+    model.addAttribute("menu", "history");
+    model.addAttribute("selectedDate", date);
+    model.addAttribute("hasMatches", !tennisList.isEmpty());
+
+    return "main";
+}
     
     
     
