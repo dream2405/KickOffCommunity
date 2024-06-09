@@ -28,7 +28,7 @@ public class UserController {
         }
 
         if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
-            bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
+            bindingResult.rejectValue("password2", "passwordInCorrect", "패스워드가 일치하지 않습니다.");
             return "signup_form";
         }
 
@@ -41,7 +41,7 @@ public class UserController {
             );
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
-            bindingResult.reject("signupFailed", "이미 등록된 사용자명 또는 학생 번호입니다.");
+            bindingResult.reject("signupFailed", "이미 등록된 사용자명 또는 학번입니다.");
             return "signup_form";
         } catch (Exception e) {
             e.printStackTrace();

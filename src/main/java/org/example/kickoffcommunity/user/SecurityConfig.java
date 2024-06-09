@@ -27,7 +27,10 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            
             .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                .requestMatchers(new AntPathRequestMatcher("/tennis/publish/write")).authenticated()
+                .requestMatchers(new AntPathRequestMatcher("/tennis/publish/view")).authenticated()
                 .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
             .csrf((csrf) -> csrf
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
