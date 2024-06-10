@@ -90,8 +90,15 @@ public class TennisBoardController {
     }
 
     @PostMapping("tennis/publish/matchingpro") //teamB에 값을 할당
-    public String BoardMatchingPro(TennisEntity tennisarticle,@RequestParam("teamB") String teamB, @RequestParam("id") Integer id) {
+    public String BoardMatchingPro(TennisEntity tennisarticle,@RequestParam("teamB") String teamB, @RequestParam("id") Integer id, Model model) {
         
+        try {
+            tennisBoardService.updateTeamB(id, teamB);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "tennis/publish"; // 에러 메시지를 표시할 페이지로 리다이렉트합니다.
+        }
+
         tennisBoardService.updateTeamB(id, teamB);
         return "redirect:/tennis/publish";
     }
