@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TeamRanking;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
@@ -26,6 +28,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -54,27 +57,33 @@ public class TennisLayoutController {
     }
     
 
+ 
+
     @GetMapping("/calender")
     public String calenderLayout(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
         int pageSize = 20;
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "date"));
         Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
-    
+
         // 모든 테니스 경기 일정 가져오기
         List<TennisEntity> tennisList = new ArrayList<>(tennisPage.getContent());
-    
+
         // date와 reservedtime을 기준으로 정렬
         tennisList.sort(Comparator.comparing(TennisEntity::getDate)
                                   .thenComparing(TennisEntity::getReservedtime));
-    
-        // 모델에 정렬된 테니스 경기 일정 추가
+
+        // 현재 로그인한 사용자 정보 가져오기
+        Optional<SiteUser> currentUserOpt = userService.getCurrentUser();
+        String currentUsername = currentUserOpt.map(SiteUser::getUsername).orElse(null);
+
+        // 모델에 정렬된 테니스 경기 일정과 현재 사용자 정보 추가
         model.addAttribute("tennislist", tennisList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", tennisPage.getTotalPages());
+        model.addAttribute("currentUsername", currentUsername);
         model.addAttribute("menu", "calender");
         return "main";
     }
-    
    
     // 테니스 탭의 팀순위 버튼 클릭시 컨텐츠 model 제어
      @GetMapping("/ranking")
