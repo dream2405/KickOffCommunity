@@ -35,7 +35,7 @@
                         <td th:text="${tennisentity.reservedtime} + ' ~ ' + (${tennisentity.reservedtime} + 2)"></td>
                         <td th:text="${tennisentity.location}"></td>
                         <td th:text="${tennisentity.sport}"></td>
-                        <td><a th:href="@{'/tennis/publish/view?id=' + ${tennisentity.tn_id}}" class="btn btn-primary mb-4">참가하기</a></td>
+                        <td><a th:href="@{'/tennis/publish/view?id=' + ${tennisentity.id}}" class="btn btn-primary mb-4">참가하기</a></td>
                     </tr>
                 </tbody>
             </table>
