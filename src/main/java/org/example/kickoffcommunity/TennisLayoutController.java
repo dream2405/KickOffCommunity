@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
@@ -23,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ public class TennisLayoutController {
 
  
 
+ 
     @GetMapping("/calender")
     public String calenderLayout(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
         int pageSize = 20;
@@ -70,18 +73,22 @@ public class TennisLayoutController {
 
         // date와 reservedtime을 기준으로 정렬
         tennisList.sort(Comparator.comparing(TennisEntity::getDate)
-                                  .thenComparing(TennisEntity::getReservedtime));
+                .thenComparing(TennisEntity::getReservedtime));
 
-        // 현재 로그인한 사용자 정보 가져오기
-        Optional<SiteUser> currentUserOpt = userService.getCurrentUser();
-        String currentUsername = currentUserOpt.map(SiteUser::getUsername).orElse(null);
+        // 현재 로그인한 사용자명 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = null;
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
+            currentUsername = ((UserDetails) authentication.getPrincipal()).getUsername();
+        }
 
-        // 모델에 정렬된 테니스 경기 일정과 현재 사용자 정보 추가
+        // 모델에 정렬된 테니스 경기 일정 추가
         model.addAttribute("tennislist", tennisList);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", tennisPage.getTotalPages());
-        model.addAttribute("currentUsername", currentUsername);
         model.addAttribute("menu", "calender");
+        model.addAttribute("currentUsername", currentUsername); // 현재 사용자명 추가
+
         return "main";
     }
    

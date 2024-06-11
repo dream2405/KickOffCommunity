@@ -26,7 +26,7 @@
     <body>
     <div class="container">
         <h2 class="my-4 text-center"></h2>
-        <table id="pubTable" class="table table-bordered table-hover">
+        <table id="pubTable" class="table table-bordered  table-hover">
             <thead class="table-light">
                 <tr>
                     <th>경기일자</th>
@@ -47,15 +47,25 @@
                     <td th:text="${tennisentity.sport}"></td>
                     <td th:text="${tennisentity.location}"></td>
                     <td>
-                        <form th:if="${tennisentity.createdBy} == ${currentUsername}" action="/tennis/calender/score" method="post" class="d-flex">
-                            <input type="hidden" name="id" th:value="${tennisentity.id}" />
-                            <div class="input-group">
-                                <input type="number" id="scoreA" name="scoreA" class="form-control text-center" placeholder="Team A" required />
-                                <span class="input-group-text">:</span>
-                                <input type="number" id="scoreB" name="scoreB" class="form-control text-center" placeholder="Team B" required />
+                        <div th:if="${currentUsername != null}">
+                            <div th:if="${tennisentity.createdBy == currentUsername}">
+                                <form action="/tennis/calender/score" method="post" class="d-flex">
+                                    <input type="hidden" name="id" th:value="${tennisentity.id}" />
+                                    <div class="input-group">
+                                        <input type="number" id="scoreA" name="scoreA" class="form-control text-center" placeholder="Team A" required />
+                                        <span class="input-group-text">:</span>
+                                        <input type="number" id="scoreB" name="scoreB" class="form-control text-center" placeholder="Team B" required />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary ms-2">Submit</button>
+                                </form>
                             </div>
-                            <button type="submit" class="btn btn-primary ms-2">Submit</button>
-                        </form>
+                            <div th:if="${tennisentity.createdBy != currentUsername}">
+                                결과 입력 불가
+                            </div>
+                        </div>
+                        <div th:if="${currentUsername == null}">
+                            로그인 필요
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -82,3 +92,4 @@
     </body>
     </html>
 </span>
+
