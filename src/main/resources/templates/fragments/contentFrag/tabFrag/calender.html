@@ -48,7 +48,7 @@
                     <td th:text="${tennisentity.location}"></td>
                     <td>
                         <form action="/tennis/calender/score" method="post" class="d-flex">
-                            <input type="hidden" name="id" th:value="${tennisentity.id}" />
+                            <input type="hidden" name="id" th:value="${tennisentity.tn_id}" />
                             <div class="input-group">
                                 <input type="number" id="scoreA" name="scoreA" class="form-control text-center" placeholder="Team A" required />
                                 <span class="input-group-text">:</span>
