@@ -82,35 +82,36 @@ public class TennisLayoutController {
         model.addAttribute("menu", "ranking");
         return "main";
     }
+
     @GetMapping("/history")
-public String historyLayout(Model model, 
-                            @RequestParam(value = "page", defaultValue = "1") int page,
-                            @RequestParam(value = "date", required = false) 
-                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-    int pageSize = 15;
-    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "date", "reservedtime"));
-    Page<TennisEntity> tennisPage;
+    public String historyLayout(Model model,
+                                @RequestParam(value = "page", defaultValue = "1") int page,
+                                @RequestParam(value = "date", required = false)
+                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        int pageSize = 15;
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "date", "reservedtime"));
+        Page<TennisEntity> tennisPage;
 
-    if (date != null) {
-        tennisPage = tennisBoardService.findMatchesByDate(date, pageable);
-    } else {
-        tennisPage = tennisBoardService.tennisBoardList(pageable);
-    }
+        if (date != null) {
+            tennisPage = tennisBoardService.findMatchesByDate(date, pageable);
+        } else {
+            tennisPage = tennisBoardService.tennisBoardList(pageable);
+        }
 
-    List<TennisEntity> tennisList = new ArrayList<>(tennisPage.getContent());
+        List<TennisEntity> tennisList = new ArrayList<>(tennisPage.getContent());
 
-    tennisList.sort(Comparator.comparing(TennisEntity::getDate, Comparator.reverseOrder())
+        tennisList.sort(Comparator.comparing(TennisEntity::getDate, Comparator.reverseOrder())
                               .thenComparing(TennisEntity::getReservedtime, Comparator.reverseOrder()));
 
-    model.addAttribute("tennislist", tennisList);
-    model.addAttribute("currentPage", page);
-    model.addAttribute("totalPages", tennisPage.getTotalPages());
-    model.addAttribute("menu", "history");
-    model.addAttribute("selectedDate", date);
-    model.addAttribute("hasMatches", !tennisList.isEmpty());
+        model.addAttribute("tennislist", tennisList);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", tennisPage.getTotalPages());
+        model.addAttribute("menu", "history");
+        model.addAttribute("selectedDate", date);
+        model.addAttribute("hasMatches", !tennisList.isEmpty());
 
-    return "main";
-}
+        return "main";
+    }
     
     
     
@@ -119,6 +120,7 @@ public String historyLayout(Model model,
         model.addAttribute("sportsType", "tennis");
         model.addAttribute("team", new Team());
         model.addAttribute("redirectURL", "/tennis/team");
+
         return "teamAdd";
     }
 
