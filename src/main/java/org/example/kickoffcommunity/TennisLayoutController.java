@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.kickoffcommunity.database.team.Team;
 import org.example.kickoffcommunity.database.team.TeamService;
 import org.example.kickoffcommunity.storage.FileUploadService;
+import org.example.kickoffcommunity.user.SiteUser;
+import org.example.kickoffcommunity.user.UserRepository;
+import org.example.kickoffcommunity.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,12 +32,11 @@ import java.util.UUID;
 @RequestMapping("/tennis")
 @RequiredArgsConstructor
 public class TennisLayoutController {
-    // 테스트용 목업 데이터 - 추후 DB로 교체 예정
-    private List<MockUpTeamData> datas = new ArrayList<>();
-
     private final TeamService teamService;
     private final FileUploadService fileUploadService;
     private final TennisBoardService tennisBoardService;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     // 테니스탭의 초기 페이지는 팀
     @GetMapping()
@@ -126,12 +128,15 @@ public class TennisLayoutController {
 
     @PostMapping("/submit")
     public String submitUser(@ModelAttribute Team team, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        // 현재 접속한 유저
+        SiteUser siteUser = userService.getCurrentUser().get();
+
+        if (siteUser.getTeam() != null) {
+            redirectAttributes.addFlashAttribute("message", "팀은 하나만 만들 수 있습니다!");
+            return "redirect:/tennis/team";
+        }
         if (team.getName() == null || team.getName().isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "팀이름을 입력해주세요!");
-            return "redirect:/tennis/team/teamAdd";
-        }
-        if (team.getLeaderName() == null || team.getLeaderName().isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "팀장 이름을 입력해주세요!");
             return "redirect:/tennis/team/teamAdd";
         }
         if (file.isEmpty()) {
@@ -145,11 +150,13 @@ public class TennisLayoutController {
         String fileName = file.getOriginalFilename();
         String fileFormat = fileName.substring(fileName.lastIndexOf("."));
         String name = UUID.randomUUID() + fileFormat;
+        userService.updateUserTeam(siteUser.getUsername(), team.getName());
 
         fileUploadService.uploadFile(file, name);
 
         team.setType("tennis");
         team.setImgPath("/img/tennis/" + name);
+        team.setLeaderName(siteUser.getName());
 
         teamService.insertTeam(team);
 

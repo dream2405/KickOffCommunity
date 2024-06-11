@@ -5,15 +5,14 @@ import org.example.kickoffcommunity.database.team.Team;
 import org.example.kickoffcommunity.database.team.TeamService;
 import org.example.kickoffcommunity.database.team_member.TeamMemberRepository;
 import org.example.kickoffcommunity.storage.FileUploadService;
+import org.example.kickoffcommunity.user.UserRepository;
+import org.example.kickoffcommunity.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -21,6 +20,8 @@ public class teamDescController {
     private final TeamService teamService;
     private final FileUploadService fileUploadService;
     private final TeamMemberRepository teamMemberRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
 
     // 테스트를 위한 임시 데이터
     private List<String> mockUpTeamMembers = new ArrayList<>(
@@ -40,16 +41,21 @@ public class teamDescController {
     @GetMapping("/{sportType}/team/*/{id}/{isEdit}")
     public String teamLayout(@PathVariable String sportType, @PathVariable Integer id, @PathVariable String isEdit, Model model) {
         var team = teamService.findTeam(id).get();
+        var currentUser = userService.getCurrentUser();
+        boolean isLeader = false;
+        if (currentUser.isPresent()) {
+            isLeader = Objects.equals(team.getLeaderName(), currentUser.get().getName());
+        }
         model.addAttribute("team", team);
         model.addAttribute("redirectURL", '/' + sportType + "/team");
         model.addAttribute("editInput", new EditInput(team.getDesc()));
         model.addAttribute("memberName", new EditInput());
+        model.addAttribute("isLeader", isLeader);
 
         // 글 수정 버튼을 클릭했으면 edit, 아니면 none
         boolean isVisible = !Objects.equals(isEdit, "edit");
 
         model.addAttribute("isVisible", isVisible);
-
         model.addAttribute("teamMembers", mockUpTeamMembers);
 
         return "teamDesc";

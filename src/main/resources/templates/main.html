@@ -35,6 +35,14 @@ xmlns:th="http://www.thymeleaf.org">
             background-color: #f2f2f2 !important; /* 헤더 배경색 */
         }
     </style>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let message = [[${message != null} ? '' + ${message} + '' : null]];
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
 </head>
 <body>
 
