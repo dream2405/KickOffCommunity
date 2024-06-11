@@ -19,11 +19,11 @@
         <!-- 팀 카드 -->
         <div class="col-4 align-items-stretch">
             <div class="card shadow-sm">
-                <a data-bs-toggle="modal" data-bs-target="#imageModal" sec:authorize="isAuthenticated()">
+                <a data-bs-toggle="modal" data-bs-target="#imageModal" sec:authorize="isAuthenticated()" th:if="${isLeader}">
                     <img th:src="@{{filePath}(filePath=${team.imgPath})}" class="card-img-top object-fit-contain" alt="...">
                 </a>
                 <img th:src="@{{filePath}(filePath=${team.imgPath})}" class="card-img-top object-fit-contain" alt="..."
-                     sec:authorize="isAnonymous()" th:if="${isLeader}">
+                     sec:authorize="isAnonymous()">
                 <div class="card-body text-center border-top">
                     <div class="row align-items-center">
                         <div class="col border-end border-black">

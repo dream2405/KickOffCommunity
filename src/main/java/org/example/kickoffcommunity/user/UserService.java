@@ -1,18 +1,22 @@
 package org.example.kickoffcommunity.user;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class UserService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public SiteUser create(String username, String studentnum, String name, String password) {
@@ -43,5 +47,18 @@ public class UserService {
     public SiteUser getUser(String username) {
         return userRepository.findByusername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
+    }
+
+    public Optional<SiteUser> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return userRepository.findByusername(username);
+    }
+
+    public SiteUser updateUserTeam(String username, String teamName) {
+        return userRepository.findByusername(username).map(user -> {
+            user.setTeam(teamName);
+            return userRepository.save(user);
+        }).orElseThrow(() -> new RuntimeException("User not found"));
     }
 }
