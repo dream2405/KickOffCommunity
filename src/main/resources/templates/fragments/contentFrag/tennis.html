@@ -17,7 +17,7 @@
             <a class="btn btn-primary btn-light"
                     th:classappend="${menu=='calender'} ? 'active' : ''" th:href="@{/tennis/calender}">경기일정</a>
             <a class="btn btn-primary btn-light"
-                    th:classappend="${menu=='publish'} ? 'active' : ''" th:href="@{/tennis/publish}">게시판</a>
+                    th:classappend="${menu=='publish'} ? 'active' : ''" th:href="@{/tennis/publish?page=1}">게시판</a>
         </div>
     </div>
 

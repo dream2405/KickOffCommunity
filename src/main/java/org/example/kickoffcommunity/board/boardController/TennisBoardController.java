@@ -52,23 +52,26 @@ public class TennisBoardController {
             return "tennis/publish"; // 에러 메시지를 표시할 페이지로 리다이렉트합니다.
         }
 
-        return "redirect:/tennis/publish";
+        return "redirect:/tennis/publish?page=1";
     }
 
 
+    
     @GetMapping("tennis/publish")
-    public String BoardList(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+    public String BoardList(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
         int pageSize = 15;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "date"));
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.ASC, "date"));
         Page<TennisEntity> tennisPage = tennisBoardService.tennisBoardList(pageable);
 
         model.addAttribute("tennislist", tennisPage.getContent());  // 페이징된 결과 리스트를 모델에 추가
         model.addAttribute("teamDatas", teamService.findAllTeams());
         model.addAttribute("currentPage", page);
+        model.addAttribute("tennisPage", tennisPage);
         model.addAttribute("totalPages", tennisPage.getTotalPages());
         model.addAttribute("menu", "publish");
         return "main";
     }
+    
 
 
     @GetMapping("tennis/publish/view")  // localhost:8080/tennis/publish/view?id=1
@@ -96,11 +99,11 @@ public class TennisBoardController {
             tennisBoardService.updateTeamB(id, teamB);
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "tennis/publish"; // 에러 메시지를 표시할 페이지로 리다이렉트합니다.
+            return "tennis/publish?page=1"; // 에러 메시지를 표시할 페이지로 리다이렉트합니다.
         }
 
         tennisBoardService.updateTeamB(id, teamB);
-        return "redirect:/tennis/publish";
+        return "redirect:/tennis/publish?page=1";
     }
  
     @GetMapping("/enter-score/{id}")

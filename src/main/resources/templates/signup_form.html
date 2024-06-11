@@ -25,12 +25,12 @@
             border-color: #f5c6cb;
             color: #721c24;
         }
+        .back{
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-    <div class="mb-3">
-        <a href="/tennis" class="btn btn-secondary">뒤로가기</a>
-    </div>
     <div class="container container-centered">
         
         <div class="form-container">
@@ -88,6 +88,8 @@
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">회원가입</button>
+                <hr>
+                <a th:href="@{/tennis/publish?page=1}" class="btn btn-link back">돌아가기</a>
             </form>
         </div>
     </div>

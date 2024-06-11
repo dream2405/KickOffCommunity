@@ -27,18 +27,18 @@
             border-color: #f5c6cb;
             color: #721c24;
         }
-        .signup-link {
-            display: block;
-            margin-top: 10px;
-            text-align: left;
-            font-size: 0.875rem;
+
+        .link-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .back, .signup-link {
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <div class="mb-3">
-        <a href="/tennis" class="btn btn-secondary">뒤로가기</a>
-    </div>
+    
     <div class="container container-centered">
         <div class="form-container">
             <form th:action="@{/user/login}" method="post">
@@ -56,7 +56,11 @@
                     <input type="password" name="password" id="password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">로그인</button>
-                <a th:href="@{/user/signup}" class="btn btn-link signup-link">회원가입</a>
+                <hr>
+                <div class="link-container mt-3">
+                    <a th:href="@{/tennis/publish?page=1}" class="btn btn-link back">돌아가기</a>
+                    <a th:href="@{/user/signup}" class="btn btn-link signup-link">회원가입</a>
+                </div>
             </form>
         </div>
     </div>
