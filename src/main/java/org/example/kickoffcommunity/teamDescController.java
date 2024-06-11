@@ -3,7 +3,8 @@ package org.example.kickoffcommunity;
 import lombok.RequiredArgsConstructor;
 import org.example.kickoffcommunity.database.team.Team;
 import org.example.kickoffcommunity.database.team.TeamService;
-import org.example.kickoffcommunity.database.team_member.TeamMemberRepository;
+import org.example.kickoffcommunity.database.team_member.TeamMember;
+import org.example.kickoffcommunity.database.team_member.TeamMemberService;
 import org.example.kickoffcommunity.storage.FileUploadService;
 import org.example.kickoffcommunity.user.UserRepository;
 import org.example.kickoffcommunity.user.UserService;
@@ -19,8 +20,7 @@ import java.util.*;
 public class teamDescController {
     private final TeamService teamService;
     private final FileUploadService fileUploadService;
-    private final TeamMemberRepository teamMemberRepository;
-    private final UserRepository userRepository;
+    private final TeamMemberService teamMemberService;
     private final UserService userService;
 
     // 테스트를 위한 임시 데이터
@@ -46,6 +46,7 @@ public class teamDescController {
         if (currentUser.isPresent()) {
             isLeader = Objects.equals(team.getLeaderName(), currentUser.get().getName());
         }
+
         model.addAttribute("team", team);
         model.addAttribute("redirectURL", '/' + sportType + "/team");
         model.addAttribute("editInput", new EditInput(team.getDesc()));
@@ -56,7 +57,13 @@ public class teamDescController {
         boolean isVisible = !Objects.equals(isEdit, "edit");
 
         model.addAttribute("isVisible", isVisible);
-        model.addAttribute("teamMembers", mockUpTeamMembers);
+
+        var teamMembers = teamMemberService.getTeamMembersByTeamName(team.getName());
+        var members = new ArrayList<>();
+        members.add(team.getLeaderName());
+        for (var member : teamMembers)
+            members.add(member.getMemberName());
+        model.addAttribute("teamMembers", members);
 
         return "teamDesc";
     }
@@ -90,6 +97,10 @@ public class teamDescController {
         // DB에서 팀 삭제
         teamService.deleteTeamById(id);
 
+        // 현재 접속 중인 유저 팀이름 삭제
+        var currentUser = userService.getCurrentUser();
+        userService.updateUserTeam(currentUser.get().getUsername(), null);
+
         String redirectURL = '/' + sportType + "/team";
         return "redirect:" + redirectURL;
     }
@@ -115,8 +126,11 @@ public class teamDescController {
     // 팀 멤버 추가시 처리
     @PostMapping("/{sportType}/team/desc/{id}/add-member")
     public String addMember(@PathVariable String sportType, @PathVariable Integer id, @ModelAttribute("memberName") EditInput editInput) {
-        mockUpTeamMembers.add(editInput.getInputTxt());
-        System.out.println(mockUpTeamMembers);
+        Team team = teamService.findTeam(id).get();
+        TeamMember teamMember = new TeamMember();
+        teamMember.setTeamName(team.getName());
+        teamMember.setMemberName(editInput.getInputTxt());
+        teamMemberService.insertTeamMember(teamMember);
         String redirectURL = '/' + sportType + "/team/desc/" + id + "/none";
 
         return "redirect:" + redirectURL;
