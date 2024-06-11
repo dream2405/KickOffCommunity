@@ -18,7 +18,8 @@
             border-radius: .25rem;
             padding: 20px;
             margin-bottom: 20px;
-            width: 646px;
+            width: 636px;
+            vertical-align: right;
         }
 
         .team-input {
@@ -109,6 +110,9 @@
                     <p>경기일자: <span th:text="${tennisarticle.date}"></span></p>
                     <p>시작시간: <span th:text="${tennisarticle.reservedtime}"></span>시</p>
                     <p>경기방식: <span th:text="${tennisarticle.sport}"></span> </p>
+                    <hr>
+                    <p style="font-size: 30px;">소개글</p>
+                    <p><span th:text="${tennisarticle.maintext}"></span></p>
                 </div>
             </div>
             <div class="col-md-6">
