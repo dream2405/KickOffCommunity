@@ -3,7 +3,6 @@ package org.example.kickoffcommunity;
 import lombok.RequiredArgsConstructor;
 import org.example.kickoffcommunity.database.team.Team;
 import org.example.kickoffcommunity.database.team.TeamService;
-import org.example.kickoffcommunity.database.team_member.TeamMember;
 import org.example.kickoffcommunity.database.team_member.TeamMemberRepository;
 import org.example.kickoffcommunity.storage.FileUploadService;
 import org.springframework.stereotype.Controller;

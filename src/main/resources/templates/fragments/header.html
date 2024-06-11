@@ -18,13 +18,14 @@
         <header class="border-bottom lh-1 py-3">
             <div class="row flex-nowrap justify-content-between align-items-center">
                 <div class="col-4 pt-1">
-                    <a class="link-secondary" href="#">Subscribe</a>
                 </div>
                 <div class="col-4 text-center">
                     <a class="blog-header-logo text-body-emphasis text-decoration-none" href="#">DanMatching</a>
                 </div>
                 <div class="col-4 d-flex justify-content-end gap-2">
+                    <span sec:authorize="isAnonymous()">
                     <a class="btn btn-sm btn-outline-secondary" th:href="@{/user/signup}">회원가입</a>
+                    </span>
                     <span sec:authorize="isAnonymous()">
                         <a class="btn btn-sm btn-outline-secondary" th:href="@{/user/login}">로그인</a>
                     </span>
@@ -37,11 +38,25 @@
 
         <div class="nav-scroller py-1 mb-3 border-bottom">
             <nav class="nav nav-underline justify-content-sm-evenly">
+                <a class="nav-item nav-link link-body-emphasis"
+                   th:classappend="${menu=='team'} ? 'active' : ''" th:href="@{/tennis/team}">팀</a>
+                <a class="nav-item nav-link link-body-emphasis"
+                   th:classappend="${menu=='ranking'} ? 'active' : ''" th:href="@{/tennis/ranking}">팀순위</a>
+                <a class="nav-item nav-link link-body-emphasis"
+                   th:classappend="${menu=='history'} ? 'active' : ''" th:href="@{/tennis/history}">경기기록</a>
+                <a class="nav-item nav-link link-body-emphasis"
+                   th:classappend="${menu=='calender'} ? 'active' : ''" th:href="@{/tennis/calender}">경기일정</a>
+                <a class="nav-item nav-link link-body-emphasis"
+                   th:classappend="${menu=='publish'} ? 'active' : ''" th:href="@{/tennis/publish}">게시판</a>
+            </nav>
+        </div>
+        <!--<div class="nav-scroller py-1 mb-3 border-bottom">
+            <nav class="nav nav-underline justify-content-sm-evenly">
                 <a class="nav-item nav-link link-body-emphasis active" th:href="@{/tennis}">테니스</a>
                 <a class="nav-item nav-link link-body-emphasis" th:href="@{/basketball}">농구</a>
                 <a class="nav-item nav-link link-body-emphasis" th:href="@{/futsal}">풋살</a>
             </nav>
-        </div>
+        </div>-->
 
     </div>
 </header>
