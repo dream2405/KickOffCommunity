@@ -4,9 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDate;
 import java.util.Objects;
+
+import org.example.kickoffcommunity.user.SiteUser;
 
 @Entity
 public class TennisEntity { //경기장 예약을 위해 생성한 Entity
@@ -29,6 +33,10 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
     private String teamA;
 
     private String score;
+    @ManyToOne
+    @JoinColumn(name = "created_by", referencedColumnName = "username")
+    private SiteUser createdBy;
+    
 
     public TennisEntity(Integer tn_id, LocalDate date, Integer reservedtime, String location, String sport, String maintext, String teamB, String teamA, String score) {
         this.tn_id = tn_id;
@@ -40,6 +48,7 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
         this.teamB = teamB;
         this.teamA = teamA;
         this.score = score;
+        this.createdBy = createdBy;
     }
 
     public String getTeamB() {
@@ -78,6 +87,13 @@ public class TennisEntity { //경기장 예약을 위해 생성한 Entity
     public TennisEntity score(String score) {
         this.score = score;
         return this;
+    }
+    public SiteUser getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(SiteUser createdBy) {
+        this.createdBy = createdBy;
     }
 
 
