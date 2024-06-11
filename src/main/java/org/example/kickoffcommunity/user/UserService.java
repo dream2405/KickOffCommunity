@@ -1,6 +1,7 @@
 package org.example.kickoffcommunity.user;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,5 +37,11 @@ public class UserService {
         }
 
         return user;
+
+    }
+    @Transactional(readOnly = true)
+    public SiteUser getUser(String username) {
+        return userRepository.findByusername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
     }
 }

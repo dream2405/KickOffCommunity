@@ -11,6 +11,7 @@ import org.example.kickoffcommunity.board.boardRepository.TennisBoardRepository;
 import org.example.kickoffcommunity.board.entity.TeamRanking;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
 import org.example.kickoffcommunity.database.team.TeamRepository;
+import org.example.kickoffcommunity.user.SiteUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public class TennisBoardService {
     private TeamRepository teamRepository;
     
 
-    public void write(TennisEntity tennisentity) throws Exception {
+    public void write(TennisEntity tennisentity, SiteUser user) throws Exception {
         boolean exists = tennisboardRepository.existsByLocationAndDateAndReservedtime(
             tennisentity.getLocation(), 
             tennisentity.getDate(), 
@@ -36,7 +37,8 @@ public class TennisBoardService {
         if (exists) {
             throw new Exception("이미 예약된 시간입니다."); // 중복 예약이 있을 경우 예외를 발생시킵니다.
         }
-    
+        
+        tennisentity.setCreatedBy(user);
         tennisboardRepository.save(tennisentity);
     }
     

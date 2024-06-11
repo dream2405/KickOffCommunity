@@ -47,7 +47,7 @@
                 <a class="nav-item nav-link link-body-emphasis"
                    th:classappend="${menu=='calender'} ? 'active' : ''" th:href="@{/tennis/calender}">경기일정</a>
                 <a class="nav-item nav-link link-body-emphasis"
-                   th:classappend="${menu=='publish'} ? 'active' : ''" th:href="@{/tennis/publish}">게시판</a>
+                   th:classappend="${menu=='publish'} ? 'active' : ''" th:href="@{/tennis/publish?page=1}">게시판</a>
             </nav>
         </div>
         <!--<div class="nav-scroller py-1 mb-3 border-bottom">

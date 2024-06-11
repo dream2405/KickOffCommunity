@@ -1,11 +1,14 @@
 package org.example.kickoffcommunity.board.boardController;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 
 import org.example.kickoffcommunity.board.boardService.TennisBoardService;
 import org.example.kickoffcommunity.board.entity.TennisEntity;
 import org.example.kickoffcommunity.database.team.TeamService;
+import org.example.kickoffcommunity.user.SiteUser;
+import org.example.kickoffcommunity.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +31,8 @@ public class TennisBoardController {
     private TennisBoardService tennisBoardService;
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private UserService userService;
     
     @GetMapping("tennis/publish/write")
     public String BoradWrite(Model model) {
@@ -44,9 +49,11 @@ public class TennisBoardController {
     }
     
     @PostMapping("tennis/publish/writepro")
-    public String BoardWritePro(TennisEntity tennisentity, Model model) {
+    public String BoardWritePro(TennisEntity tennisentity, Model model, Principal principal) {
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+
         try {
-            tennisBoardService.write(tennisentity);
+            tennisBoardService.write(tennisentity, siteUser);
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "tennis/publish"; // 에러 메시지를 표시할 페이지로 리다이렉트합니다.
