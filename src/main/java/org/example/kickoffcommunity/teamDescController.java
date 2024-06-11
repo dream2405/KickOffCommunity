@@ -6,7 +6,6 @@ import org.example.kickoffcommunity.database.team.TeamService;
 import org.example.kickoffcommunity.database.team_member.TeamMember;
 import org.example.kickoffcommunity.database.team_member.TeamMemberService;
 import org.example.kickoffcommunity.storage.FileUploadService;
-import org.example.kickoffcommunity.user.UserRepository;
 import org.example.kickoffcommunity.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +21,6 @@ public class teamDescController {
     private final FileUploadService fileUploadService;
     private final TeamMemberService teamMemberService;
     private final UserService userService;
-
-    // 테스트를 위한 임시 데이터
-    private List<String> mockUpTeamMembers = new ArrayList<>(
-            List.of(
-                    "김철수", "김영희", "박지수"
-            )
-    );
 
     @GetMapping("/{sportType}/team/*/{id}")
     public String tabLayout(@PathVariable String sportType, @PathVariable Integer id) {
