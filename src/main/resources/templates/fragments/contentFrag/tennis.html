@@ -6,21 +6,6 @@
 </head>
 <body>
 <div th:fragment="tennis">
-    <div class="container">
-        <div class="btn-group" role="group" aria-label="Basic outlined example">
-            <a class="btn btn-primary btn-light"
-                    th:classappend="${menu=='team'} ? 'active' : ''" th:href="@{/tennis/team}">팀</a>
-            <a class="btn btn-primary btn-light"
-                    th:classappend="${menu=='ranking'} ? 'active' : ''" th:href="@{/tennis/ranking}">팀순위</a>
-            <a class="btn btn-primary btn-light"
-                    th:classappend="${menu=='history'} ? 'active' : ''" th:href="@{/tennis/history}">경기기록</a>
-            <a class="btn btn-primary btn-light"
-                    th:classappend="${menu=='calender'} ? 'active' : ''" th:href="@{/tennis/calender}">경기일정</a>
-            <a class="btn btn-primary btn-light"
-                    th:classappend="${menu=='publish'} ? 'active' : ''" th:href="@{/tennis/publish?page=1}">게시판</a>
-        </div>
-    </div>
-
     <th:block th:if="${menu} == 'team'">
         <span th:replace="~{fragments/contentFrag/tabFrag/team :: team}"></span>
     </th:block>
