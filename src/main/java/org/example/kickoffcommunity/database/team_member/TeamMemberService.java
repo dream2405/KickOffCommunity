@@ -27,6 +27,10 @@ public class TeamMemberService {
         return teamMemberRepository.findAll();
     }
 
+    public void deleteTeamMemberById(int teamMemberId) {
+        this.teamMemberRepository.deleteById(teamMemberId);
+    }
+
     public Iterable<TeamMember> getTeamMembersByTeamName(String teamName) {
         var result = new ArrayList<TeamMember>();
         var teamMembers = teamMemberRepository.findAll();

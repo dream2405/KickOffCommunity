@@ -95,8 +95,11 @@
                 </div>
                 <!-- 팀 멤버 렌더링 -->
                 <div class="list-group list-group-flush">
-                    <a th:each="teamMember, stat : ${teamMembers}" class="list-group-item" th:text="${teamMember}"
-                       href="#" th:classappend="${stat.index == 0} ? 'fw-bolder' : ''">...</a>
+                    <a class="list-group-item" th:text="${leaderName} + '(팀장)'">...</a>
+                    <form th:action="@{/{type}/team/desc/{id}/delete-member/{mId}(type=${team.type},id=${team.id},mId=${teamMember.id})}" method="post"
+                          th:each="teamMember : ${teamMembers}">
+                        <button type="submit" class="list-group-item" th:text="${teamMember.memberName}">...</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -160,7 +163,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                    <button type="button" class="btn btn-primary">추가</button>
+                    <button type="submit" class="btn btn-primary">추가</button>
                 </div>
             </form>
         </div>

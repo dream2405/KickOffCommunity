@@ -44,6 +44,7 @@ public class teamDescController {
         model.addAttribute("editInput", new EditInput(team.getDesc()));
         model.addAttribute("memberName", new EditInput());
         model.addAttribute("isLeader", isLeader);
+        model.addAttribute("leaderName", team.getLeaderName());
 
         // 글 수정 버튼을 클릭했으면 edit, 아니면 none
         boolean isVisible = !Objects.equals(isEdit, "edit");
@@ -52,9 +53,8 @@ public class teamDescController {
 
         var teamMembers = teamMemberService.getTeamMembersByTeamName(team.getName());
         var members = new ArrayList<>();
-        members.add(team.getLeaderName());
         for (var member : teamMembers)
-            members.add(member.getMemberName());
+            members.add(member);
         model.addAttribute("teamMembers", members);
 
         return "teamDesc";
@@ -125,6 +125,13 @@ public class teamDescController {
         teamMemberService.insertTeamMember(teamMember);
         String redirectURL = '/' + sportType + "/team/desc/" + id + "/none";
 
+        return "redirect:" + redirectURL;
+    }
+
+    @PostMapping("/{sportType}/team/desc/{id}/delete-member/{mId}")
+    public String deleteMember(@PathVariable String sportType, @PathVariable Integer id, @PathVariable Integer mId) {
+        teamMemberService.deleteTeamMemberById(mId);
+        String redirectURL = '/' + sportType + "/team/desc/" + id + "/none";
         return "redirect:" + redirectURL;
     }
 }
